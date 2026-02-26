@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-import db from './db';
+import db from './db.js';
 import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3001;
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASS || 'genz@2025';
 
-const sessions = new Map<string, { user: string; expires: number }>();
+const sessions = new Map();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,7 +35,7 @@ app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
 
 // ========== AUTH ==========
 
-function authMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) return res.status(401).json({ error: 'Unauthorized' });
     const token = authHeader.slice(7);
@@ -81,10 +81,10 @@ app.get('/api/blogs/:slug', (req, res) => {
 app.get('/api/resources', (req, res) => {
     const { level, subject, type } = req.query;
     let query = 'SELECT * FROM resources WHERE published = 1';
-    const params: string[] = [];
-    if (level) { query += ' AND level = ?'; params.push(level as string); }
-    if (subject) { query += ' AND subject = ?'; params.push(subject as string); }
-    if (type) { query += ' AND resource_type = ?'; params.push(type as string); }
+    const params = [];
+    if (level) { query += ' AND level = ?'; params.push(level); }
+    if (subject) { query += ' AND subject = ?'; params.push(subject); }
+    if (type) { query += ' AND resource_type = ?'; params.push(type); }
     query += ' ORDER BY level, subject, resource_type, sub_type, id';
     res.json(db.prepare(query).all(...params));
 });
@@ -93,8 +93,8 @@ app.get('/api/resources', (req, res) => {
 app.get('/api/resources/subjects', (req, res) => {
     const { level } = req.query;
     let query = 'SELECT DISTINCT level, subject FROM resources WHERE published = 1';
-    const params: string[] = [];
-    if (level) { query += ' AND level = ?'; params.push(level as string); }
+    const params = [];
+    if (level) { query += ' AND level = ?'; params.push(level); }
     query += ' ORDER BY level, subject';
     res.json(db.prepare(query).all(...params));
 });
