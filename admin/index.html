@@ -824,7 +824,7 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        const API = 'http://localhost:3001/api';
+        const API = window.location.origin + '/api';
         let token = localStorage.getItem('admin_token') || '';
         let blogsData = [], resourcesData = [], widgetsData = [];
 
