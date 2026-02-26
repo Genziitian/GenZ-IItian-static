@@ -33,14 +33,28 @@ export default function Contact() {
                   e.preventDefault();
                   setSubmitting(true);
                   const form = e.target as HTMLFormElement;
-                  const data = new FormData(form);
+                  const formData = new FormData(form);
+                  const params = new URLSearchParams(window.location.search);
+
+                  const payload = new URLSearchParams();
+                  payload.append('form_type', 'Contact Us');
+                  payload.append('name', formData.get('entry.1234567890') as string);
+                  payload.append('email', formData.get('entry.0987654321') as string);
+                  payload.append('message', formData.get('entry.5566778899') as string);
+                  payload.append('utm_source', params.get('utm_source') || 'direct');
+                  payload.append('utm_medium', params.get('utm_medium') || 'organic');
+                  payload.append('utm_campaign', params.get('utm_campaign') || 'none');
+
                   try {
-                    await fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
+                    // Replace YOUR_SCRIPT_URL with your Google Apps Script Web App URL
+                    await fetch('https://script.google.com/macros/s/AKfycbysGFbxo9r41D5kMnKmO90rr9u_mzn5aBuhZG6AFvRZOhDtFJ9dclTHgJJqdcBNS-Ny/exec', {
                       method: 'POST',
                       mode: 'no-cors',
-                      body: data
+                      body: payload
                     });
-                  } catch { /* Google Forms no-cors always errors */ }
+                  } catch (e) {
+                    console.error('Submission error:', e);
+                  }
                   setSubmitting(false);
                   setSubmitted(true);
                   form.reset();

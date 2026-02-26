@@ -125,19 +125,33 @@ export default function Resources() {
     e.preventDefault();
     setGateSubmitting(true);
     const form = e.target as HTMLFormElement;
-    const data = new FormData(form);
+    const formData = new FormData(form);
+    const params = new URLSearchParams(window.location.search);
+
+    const payload = new URLSearchParams();
+    payload.append('form_type', 'Resource Gate');
+    payload.append('name', formData.get('entry.name') as string);
+    payload.append('email', formData.get('entry.email') as string);
+    payload.append('phone', formData.get('entry.phone') as string);
+    payload.append('level', formData.get('entry.level') as string);
+    payload.append('utm_source', params.get('utm_source') || 'direct');
+    payload.append('utm_medium', params.get('utm_medium') || 'organic');
+    payload.append('utm_campaign', params.get('utm_campaign') || 'none');
+
     try {
-      await fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
+      // Replace YOUR_SCRIPT_URL with your Google Apps Script Web App URL
+      await fetch('https://script.google.com/macros/s/AKfycbysGFbxo9r41D5kMnKmO90rr9u_mzn5aBuhZG6AFvRZOhDtFJ9dclTHgJJqdcBNS-Ny/exec', {
         method: 'POST',
         mode: 'no-cors',
-        body: data
+        body: payload
       });
-    } catch { /* no-cors */ }
+    } catch { /* no-cors ignores response */ }
+
     localStorage.setItem('resource_access', JSON.stringify({
-      name: data.get('entry.name'),
-      email: data.get('entry.email'),
-      phone: data.get('entry.phone'),
-      level: data.get('entry.level'),
+      name: formData.get('entry.name'),
+      email: formData.get('entry.email'),
+      phone: formData.get('entry.phone'),
+      level: formData.get('entry.level'),
       timestamp: new Date().toISOString()
     }));
     setGateSubmitting(false);
