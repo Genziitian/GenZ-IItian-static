@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [isNewsletterPopupOpen, setIsNewsletterPopupOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNewsletterSubmitted, setIsNewsletterSubmitted] = useState(false);
 
   return (
     <div className="min-h-screen bg-white text-[#0b1120] font-sans selection:bg-blue-100 overflow-hidden">
@@ -715,6 +717,7 @@ export default function Home() {
               className="flex flex-col gap-6"
               onSubmit={async (e) => {
                 e.preventDefault();
+                setIsSubmitting(true);
                 const form = e.target as HTMLFormElement;
                 const formData = new FormData(form);
                 const params = new URLSearchParams(window.location.search);
@@ -737,6 +740,8 @@ export default function Home() {
                   });
                 } catch { /* no-cors ignores response */ }
 
+                setIsSubmitting(false);
+                setIsNewsletterSubmitted(true);
                 setIsNewsletterPopupOpen(true);
                 form.reset();
               }}
@@ -782,9 +787,10 @@ export default function Home() {
 
               <button
                 type="submit"
-                className="w-full py-5 bg-[#0b1120] text-white rounded-xl font-black text-xl border-[3px] border-[#0b1120] shadow-[6px_6px_0px_#10b981] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_#10b981] transition-all mt-4"
+                disabled={isSubmitting || isNewsletterSubmitted}
+                className="w-full py-5 bg-[#0b1120] text-white rounded-xl font-black text-xl border-[3px] border-[#0b1120] shadow-[6px_6px_0px_#10b981] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_#10b981] transition-all mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Get Free Resources Now
+                {isSubmitting ? 'Sending...' : isNewsletterSubmitted ? 'Subscribed! 🎉' : 'Get Free Resources Now'}
               </button>
 
               <p className="text-center text-sm font-bold text-gray-500 mt-2">

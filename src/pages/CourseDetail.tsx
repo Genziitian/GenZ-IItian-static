@@ -1,8 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { ChevronDown, ChevronRight, Play, Star, CheckCircle2, Shield, Zap, CreditCard, Users, Clock, BookOpen, Globe, Award, Briefcase, Search } from 'lucide-react';
 
+const RazorpayButton = ({ buttonId }: { buttonId: string }) => {
+  const containerRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current && !containerRef.current.querySelector('script')) {
+      const script = document.createElement('script');
+      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+      script.setAttribute('data-payment_button_id', buttonId);
+      script.async = true;
+      containerRef.current.appendChild(script);
+    }
+  }, [buttonId]);
+
+  return <form ref={containerRef} className="w-full flex justify-center" />;
+};
+
 export default function CourseDetail() {
+  const { id } = useParams();
   const [activeFaq, setActiveFaq] = useState<number | string | null>(null);
+
+  const getCourseTitle = (courseId: string | undefined) => {
+    switch (courseId) {
+      case 'qualifier': return 'Qualifier Course';
+      case 'foundation-1': return 'Foundation Term 1';
+      case 'foundation-2': return 'Foundation Term 2';
+      case 'diploma': return 'Diploma Course';
+      default: return 'Course Details';
+    }
+  };
+
+  const courseTitle = getCourseTitle(id);
 
   const faqs = [
     {
@@ -35,7 +65,7 @@ export default function CourseDetail() {
                 </div>
 
                 <h1 className="text-4xl lg:text-6xl font-black leading-tight">
-                  Qualifier Course
+                  {courseTitle}
                 </h1>
 
                 <div className="inline-block px-4 py-2 bg-[#10b981] text-[#0b1120] font-black rounded-lg w-fit transform -rotate-1">
@@ -102,21 +132,28 @@ export default function CourseDetail() {
                         <span>Beginner</span>
                       </div>
                     </div>
-                    <div className="flex items-end justify-between mb-4">
+                    <div className="flex items-end justify-between mb-4 flex-wrap gap-2">
                       <div>
-                        <div className="text-sm text-gray-500 font-bold line-through mb-1">₹999</div>
-                        <div className="text-3xl font-black text-[#0b1120]">₹649</div>
+                        <div className="text-sm text-gray-500 font-bold line-through mb-0.5">₹999</div>
+                        <div className="text-2xl sm:text-3xl font-black text-[#0b1120]">Starts ₹649</div>
                       </div>
-                      <div className="px-3 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-xs font-black">
+                      <div className="px-3 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] sm:text-xs font-black">
                         35% OFF
                       </div>
                     </div>
-                    <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex flex-col items-center justify-center gap-1">
-                      <div className="flex items-center gap-2">
-                        Enroll Now - ₹649 Only <ChevronRight className="w-5 h-5" />
+                    {id === 'qualifier' ? (
+                      <div className="w-full bg-[#0b1120] rounded-xl p-3 border-2 border-[#0b1120] hover:bg-gray-800 transition-colors shadow-lg flex flex-col items-center gap-1 group">
+                        <RazorpayButton buttonId="pl_SAz4NLS9RwPWyM" />
+                        <div className="text-[10px] sm:text-xs text-[#10b981] font-black uppercase tracking-wider">Get Secured Seat to BS</div>
                       </div>
-                      <div className="text-xs text-[#10b981] font-bold uppercase tracking-wider">Get Secured Seat to BS</div>
-                    </a>
+                    ) : (
+                      <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_self" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex flex-col items-center justify-center gap-1 shadow-lg">
+                        <div className="flex items-center gap-2">
+                          Proceed to Payment <ChevronRight className="w-5 h-5" />
+                        </div>
+                        <div className="text-[10px] sm:text-xs text-[#10b981] font-black uppercase tracking-wider">Get Secured Seat to BS</div>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -133,57 +170,59 @@ export default function CourseDetail() {
           {/* Who is This For? */}
           <section>
             <div className="text-center mb-10">
-              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3">Who is This For?</h2>
-              <p className="text-gray-600 font-bold">Whether you're starting fresh or leveling up, this cohort is designed for your success</p>
+              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3">🎯 Who Is This For?</h2>
+              <p className="text-gray-600 font-bold max-w-2xl mx-auto">Whether you're starting fresh or leveling up, this cohort is designed for your success in the IIT Madras Qualifier.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="relative group">
-                <div className="absolute inset-0 bg-[#10b981] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
-                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-6 h-full flex flex-col items-center text-center transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="w-full aspect-video bg-blue-50 rounded-xl mb-6 border-2 border-gray-100 flex items-center justify-center overflow-hidden">
-                    <img src="https://picsum.photos/seed/beginner/400/225" alt="Beginners" className="w-full h-full object-cover opacity-80" />
-                  </div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Beginners in Tech</h3>
-                  <p className="text-sm text-gray-600 font-medium">Those who want to start a career in software development with strong fundamentals.</p>
+                <div className="absolute inset-0 bg-[#fef08a] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
+                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
+                  <div className="text-4xl mb-4">🎓</div>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Class 12 Students (Any Stream)</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Students who want to secure admission into the IIT Madras BS Degree without JEE and build a strong academic foundation from Day 1.</p>
                 </div>
               </div>
               <div className="relative group">
-                <div className="absolute inset-0 bg-[#10b981] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
-                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-6 h-full flex flex-col items-center text-center transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="w-full aspect-video bg-purple-50 rounded-xl mb-6 border-2 border-gray-100 flex items-center justify-center overflow-hidden">
-                    <img src="https://picsum.photos/seed/selftaught/400/225" alt="Self-taught" className="w-full h-full object-cover opacity-80" />
-                  </div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Self-taught Developers</h3>
-                  <p className="text-sm text-gray-600 font-medium">People who already know the basics but need a structured roadmap and real projects to become job-ready.</p>
+                <div className="absolute inset-0 bg-[#e0e7ff] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
+                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
+                  <div className="text-4xl mb-4">📚</div>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Drop-Year / Gap-Year Aspirants</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Students who want a structured preparation system to crack the IIT Madras Qualifier and enter India’s most innovative online degree program.</p>
                 </div>
               </div>
               <div className="relative group">
-                <div className="absolute inset-0 bg-[#10b981] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
-                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-6 h-full flex flex-col items-center text-center transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="w-full aspect-video bg-green-50 rounded-xl mb-6 border-2 border-gray-100 flex items-center justify-center overflow-hidden">
-                    <img src="https://picsum.photos/seed/pro/400/225" alt="Professionals" className="w-full h-full object-cover opacity-80" />
-                  </div>
+                <div className="absolute inset-0 bg-[#d1fae5] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
+                <div className="relative bg-white border-[3px) border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
+                  <div className="text-4xl mb-4">💼</div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-3">Working Professionals</h3>
-                  <p className="text-sm text-gray-600 font-medium">Anyone looking to upgrade skills in Full-Stack + DevOps and grow into better roles in tech.</p>
+                  <p className="text-gray-600 font-medium leading-relaxed">Professionals who want to transition into Data Science, Analytics, Aerospace, or Management roles through the IIT Madras BS Degree — but need structured guidance to clear the Qualifier first.</p>
+                </div>
+              </div>
+              <div className="relative group">
+                <div className="absolute inset-0 bg-[#fee2e2] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
+                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
+                  <div className="text-4xl mb-4">🧠</div>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Self-Learners & Repeat Attempters</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Students who attempted the Qualifier before or studied independently but need proper mentorship, accountability, and weekly testing to succeed.</p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Career Outcomes */}
           <section>
             <div className="text-center mb-10">
-              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3">Career Outcomes</h2>
-              <p className="text-gray-600 font-bold">Everything you need to launch or accelerate your tech career</p>
+              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3">What You Get in the Cohort</h2>
+              <p className="text-gray-600 font-bold">Everything you need to clear the IIT Madras BS Qualifier Exam with confidence</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: "💻", title: "Real-World Projects", desc: "Learn Full Stack Development, DevOps, and Blockchain through live sessions, mentorship, and hands-on coding challenges.", color: "bg-pink-100" },
-                { icon: "📄", title: "Portfolio Development", desc: "Learn Full Stack Development, DevOps, and Blockchain through live sessions, mentorship, and hands-on coding challenges.", color: "bg-yellow-100" },
-                { icon: "💬", title: "Interview Preparation", desc: "Collaborate, build, and grow with thousands of passionate learners pushing their limits every day.", color: "bg-blue-100" },
-                { icon: "📈", title: "Career Growth", desc: "Learn Full Stack Development, DevOps, and Blockchain through live sessions, mentorship, and hands-on coding challenges.", color: "bg-orange-100" },
-                { icon: "🧑‍🏫", title: "Industry Mentorship", desc: "Learn Full Stack Development, DevOps, and Blockchain through live sessions, mentorship, and hands-on coding challenges.", color: "bg-red-100" },
-                { icon: "👥", title: "Community Access", desc: "Collaborate, build, and grow with thousands of passionate learners pushing their limits every day.", color: "bg-teal-100" }
+                { icon: "📘", title: "Structured Foundation Mastery", desc: "Complete preparation for Mathematics 1, Statistics 1, Computational Thinking, and English 1, aligned exactly with the IIT Madras pattern.", color: "bg-blue-100" },
+                { icon: "📝", title: "Weekly Assignment Strategy", desc: "Learn how to score above cutoff, avoid common mistakes, manage time efficiently, and crack conceptual questions.", color: "bg-yellow-100" },
+                { icon: "🎥", title: "Live Problem-Solving Sessions", desc: "IIT-level explanations for mathematical reasoning, logical thinking, data interpretation, and programming logic.", color: "bg-purple-100" },
+                { icon: "📊", title: "Mock Qualifier Exams", desc: "Full-length simulated Qualifier exams with time-bound practice, performance analytics, and personalized feedback.", color: "bg-green-100" },
+                { icon: "🎯", title: "Cutoff-Oriented Prep Plan", desc: "We train you specifically to clear weekly assignment thresholds and qualify for the final exam with high scores.", color: "bg-orange-100" },
+                { icon: "👨‍🏫", title: "IIT-Focused Mentorship", desc: "Strategy sessions for Data Science, Mgmt, and Aero degrees, including degree selection and post-qualifier roadmaps.", color: "bg-teal-100" },
+                { icon: "👥", title: "Gen-Z IITian Community", desc: "Doubt-solving groups, peer accountability, and a motivated IITM aspirant network for constant updates and strategy.", color: "bg-red-100" }
               ].map((item, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-[#10b981] rounded-2xl translate-y-1.5 translate-x-1.5 border-2 border-[#0b1120]"></div>
@@ -199,6 +238,67 @@ export default function CourseDetail() {
             </div>
           </section>
 
+          {/* Career Outcomes */}
+          <section>
+            <div className="bg-[#0b1120] rounded-[2.5rem] p-10 lg:p-16 text-white border-[3px] border-[#0b1120] shadow-[12px_12px_0px_#10b981] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-0"></div>
+              <div className="relative z-10 text-center mb-12">
+                <h2 className="text-3xl lg:text-4xl font-black mb-4">📈 Career Outcomes</h2>
+                <p className="text-gray-400 font-bold">Once you enter IIT Madras BS, you unlock:</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                {[
+                  { title: "🎓 IIT Madras Alumni Status", desc: "Gain the prestigious status of being an alum of India's #1 engineering institute." },
+                  { title: "💼 Industry Exposure", desc: "Access to internships, placements, and high-level networking within the tech industry." },
+                  { title: "📊 Strong Academic Base", desc: "A world-class foundation in Data Science, Management, or Aerospace Engineering." },
+                  { title: "🚀 Future Opportunities", desc: "Direct pathway to Masters programs, GATE, or top-tier technical and managerial roles." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="mt-1 w-6 h-6 rounded-full bg-[#10b981] flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-4 h-4 text-[#0b1120]" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-lg mb-1">{item.title}</h4>
+                      <p className="text-gray-400 font-medium text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Why Gen-Z IITian? */}
+          <section>
+            <div className="text-center mb-10">
+              <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-[#0b1120] mb-3 whitespace-nowrap">Why Gen-Z IITian?</h2>
+              <p className="text-gray-600 font-bold max-w-xl mx-auto px-4">Most students fail the Qualifier not because they lack intelligence — but because they lack structure.</p>
+            </div>
+            <div className="bg-white border-[3px] border-[#0b1120] rounded-[2.5rem] p-8 lg:p-12 overflow-hidden relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  {[
+                    "Proven Academic Structure",
+                    "Expert Strategy & Roadmap",
+                    "Real-Time Accountability",
+                    "Extensive Mock Practice"
+                  ].map((text, i) => (
+                    <div key={i} className="flex items-center gap-4 text-xl font-black text-[#0b1120]">
+                      <div className="w-8 h-8 rounded-lg bg-[#d1fae5] flex items-center justify-center text-[#059669] border-2 border-[#0b1120] group-hover:scale-110 transition-transform">
+                        <CheckCircle2 className="w-5 h-5" />
+                      </div>
+                      {text}
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-[#eef2ff] p-8 rounded-3xl border-[3px] border-[#0b1120] shadow-[8px_8px_0px_#0b1120]">
+                  <p className="text-lg text-gray-700 font-bold italic leading-relaxed">
+                    "Gen-Z IITian bridges the gap between self-study and success. We don't just teach the syllabus; we prepare you for the challenge of being an IITian."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Course Syllabus */}
           <section>
             <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-8">
@@ -206,10 +306,10 @@ export default function CourseDetail() {
             </h2>
             <div className="space-y-4">
               {[
-                { title: "Mathematics 1 (Every Monday)", desc: "Foundation concepts & problem solving" },
-                { title: "Statistics 1 (Every Tuesday)", desc: "Data analysis & probability basics" },
-                { title: "Computational Thinking (Every Wednesday)", desc: "Logic, algorithms & problem solving" },
-                { title: "English 1 (Every Thursday)", desc: "Comprehension & communication" }
+                { title: "Mathematics 1", desc: "Foundation concepts & problem solving" },
+                { title: "Statistics 1", desc: "Data analysis & probability basics" },
+                { title: "Computational Thinking", desc: "Logic, algorithms & problem solving" },
+                { title: "English 1", desc: "Comprehension & communication" }
               ].map((item, i) => (
                 <div key={i} className="bg-white border-[3px] border-[#0b1120] rounded-2xl overflow-hidden shadow-[4px_4px_0px_#0b1120] transition-all hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120]">
                   <button
@@ -262,9 +362,9 @@ export default function CourseDetail() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-3.5 bg-gray-100 text-[#0b1120] rounded-xl font-bold text-lg hover:bg-gray-200 transition-all">
-                    Select Basic
-                  </button>
+                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-gray-100 text-[#0b1120] rounded-xl font-bold text-lg hover:bg-gray-200 transition-all text-center">
+                    Proceed to Payment
+                  </a>
                 </div>
 
                 {/* Advanced Plan */}
@@ -286,9 +386,9 @@ export default function CourseDetail() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-3.5 bg-blue-500 text-white rounded-xl font-bold text-lg hover:bg-blue-600 transition-all">
-                    Select Advanced
-                  </button>
+                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-blue-500 text-white rounded-xl font-bold text-lg hover:bg-blue-600 transition-all text-center">
+                    Proceed to Payment
+                  </a>
                 </div>
 
                 {/* Champion Plan */}
@@ -312,9 +412,9 @@ export default function CourseDetail() {
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-3.5 bg-[#f59e0b] text-white rounded-xl font-bold text-lg hover:bg-[#d97706] transition-all">
-                    Select Champion
-                  </button>
+                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-[#f59e0b] text-white rounded-xl font-bold text-lg hover:bg-[#d97706] transition-all text-center">
+                    Proceed to Payment
+                  </a>
                 </div>
               </div>
             </div>
@@ -322,37 +422,34 @@ export default function CourseDetail() {
 
           {/* Learning Experience */}
           <section className="overflow-hidden">
-            <h2 className="text-3xl font-black text-[#0b1120] mb-8 flex items-center gap-3">
-              <span className="text-4xl">✨</span> The Learning Experience
+            <h2 className="text-3xl font-black text-[#0b1120] mb-8 text-center">
+              The Learning Experience
             </h2>
-            <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              <div className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-6 rounded-2xl border-2 border-gray-200 text-center shrink-0">
-                <div className="w-16 h-16 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center text-3xl mb-4">🎥</div>
-                <h4 className="font-bold text-[#0b1120] mb-2">Live Interactive Classes</h4>
-                <p className="text-sm text-gray-600 italic">"A place to explore, create and thrive"</p>
-              </div>
-              <div className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-6 rounded-2xl border-2 border-gray-200 text-center shrink-0">
-                <div className="w-16 h-16 mx-auto bg-purple-100 rounded-2xl flex items-center justify-center text-3xl mb-4">📚</div>
-                <h4 className="font-bold text-[#0b1120] mb-2">Premium Study Materials</h4>
-                <p className="text-sm text-gray-600 italic">"Where learning meets inspiration"</p>
-              </div>
-              <div className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-6 rounded-2xl border-2 border-gray-200 text-center shrink-0">
-                <div className="w-16 h-16 mx-auto bg-green-100 rounded-2xl flex items-center justify-center text-3xl mb-4">💬</div>
-                <h4 className="font-bold text-[#0b1120] mb-2">24/7 Doubt Support</h4>
-                <p className="text-sm text-gray-600 italic">"Success is a journey, not a destination"</p>
-              </div>
-              <div className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-6 rounded-2xl border-2 border-gray-200 text-center shrink-0">
-                <div className="w-16 h-16 mx-auto bg-yellow-100 rounded-2xl flex items-center justify-center text-3xl mb-4">📝</div>
-                <h4 className="font-bold text-[#0b1120] mb-2">Regular Mock Tests</h4>
-                <p className="text-sm text-gray-600 italic">"Practice makes perfect"</p>
+            <div className="relative">
+              <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory animate-scroll scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {[
+                  { icon: "🎥", title: "Live Interactive Classes", desc: "A place to explore, create and thrive", color: "bg-blue-50" },
+                  { icon: "📚", title: "Premium Study Materials", desc: "Where learning meets inspiration", color: "bg-purple-50" },
+                  { icon: "💬", title: "24/7 Doubt Support", desc: "Success is a journey, not a destination", color: "bg-green-50" },
+                  { icon: "📝", title: "Regular Mock Tests", desc: "Practice makes perfect", color: "bg-yellow-50" },
+                  { icon: "🎯", title: "Goal Tracking", desc: "Stay on top of your progress", color: "bg-red-50" }
+                ].map((item, i) => (
+                  <div key={i} className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-8 rounded-3xl border-[3px] border-[#0b1120] text-center shrink-0 shadow-[6px_6px_0px_#0b1120] hover:-translate-y-1 transition-all">
+                    <div className={`w-20 h-20 mx-auto ${item.color} rounded-2xl border-2 border-[#0b1120] flex items-center justify-center text-4xl mb-6 shadow-[4px_4px_0px_#0b1120]`}>
+                      {item.icon}
+                    </div>
+                    <h4 className="font-black text-xl text-[#0b1120] mb-4">{item.title}</h4>
+                    <p className="text-sm font-bold text-gray-500 italic">"{item.desc}"</p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
 
           {/* Student Reviews */}
           <section>
-            <h2 className="text-3xl font-black text-[#0b1120] mb-8 flex items-center gap-3">
-              <span className="text-4xl">⭐</span> Student Reviews
+            <h2 className="text-3xl font-black text-[#0b1120] mb-8 text-center">
+              Student Reviews
             </h2>
             <div className="flex items-center gap-4 mb-8">
               <div className="text-5xl font-black text-[#0b1120]">4.9</div>
@@ -367,14 +464,14 @@ export default function CourseDetail() {
                   text: "The mock tests were exactly like the real exam. Cleared my qualifier comfortably!",
                   initial: "R",
                   name: "Rahul Sharma",
-                  role: "Qualified Jan 2025",
+                  role: "Qualified Sept 2025",
                   color: "bg-blue-100 text-blue-700"
                 },
                 {
                   text: "As someone from non-maths background, the teaching made everything click!",
                   initial: "A",
                   name: "Anjali Gupta",
-                  role: "Qualified Sept 2024",
+                  role: "Qualified May 2025",
                   color: "bg-purple-100 text-purple-700"
                 }
               ].map((review, i) => (
@@ -407,13 +504,12 @@ export default function CourseDetail() {
               Watch this quick tour to understand how our platform simplifies your IIT Madras journey
             </p>
             <div className="aspect-video bg-gray-900 rounded-3xl border-[3px] border-[#0b1120] overflow-hidden relative shadow-[8px_8px_0px_#0b1120]">
-              {/* Replace with actual YouTube embed */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <a href="https://www.youtube.com/channel/UC4oJ9lmWx_X9_XsNTUWLkNw" target="_blank" rel="noopener noreferrer" className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-xl">
+                <a href="https://www.youtube.com/watch?v=QrGKYmvOo3Q" target="_blank" rel="noopener noreferrer" className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-xl">
                   <Play className="w-8 h-8 text-white ml-2" fill="currentColor" />
                 </a>
               </div>
-              <img src="https://picsum.photos/seed/youtube/800/450" alt="Video Thumbnail" className="w-full h-full object-cover opacity-60" />
+              <img src="https://img.youtube.com/vi/QrGKYmvOo3Q/maxresdefault.jpg" alt="Video Thumbnail" className="w-full h-full object-cover opacity-60" />
             </div>
           </section>
 
@@ -472,18 +568,33 @@ export default function CourseDetail() {
                   </div>
 
                   <div className="relative mb-6">
-                    <select className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-xl px-4 py-3 text-base font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]">
-                      <option>INR</option>
-                      <option>USD</option>
+                    <select
+                      onChange={(e) => {
+                        if (e.target.value !== "select") {
+                          document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
+                      className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-xl px-4 py-3 text-base font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]"
+                    >
+                      <option value="select">Select Plan</option>
+                      <option value="basic">Basic - ₹649</option>
+                      <option value="advanced">Advanced - ₹799</option>
+                      <option value="champion">Champion - ₹999</option>
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                       <ChevronDown className="w-5 h-5 text-[#0b1120]" />
                     </div>
                   </div>
 
-                  <button onClick={() => window.open('https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view', '_blank')} className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-black text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
-                    Buy Now
-                  </button>
+                  {id === 'qualifier' ? (
+                    <div className="w-full bg-[#0b1120] rounded-xl p-2 border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
+                      <RazorpayButton buttonId="pl_SAz4NLS9RwPWyM" />
+                    </div>
+                  ) : (
+                    <button onClick={() => window.open('https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view', '_blank')} className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-black text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
+                      Proceed to Payment
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -530,7 +641,7 @@ export default function CourseDetail() {
           </div>
         </div>
         <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} className="px-4 py-3 bg-[#10b981] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] flex items-center gap-2 hover:bg-[#059669] hover:text-white transition-colors text-sm sm:text-base">
-          <span className="hidden sm:inline">🎯</span> Get Secured Seat to BS
+          <span className="hidden sm:inline">🎯</span> Enroll Now
         </button>
       </div>
 

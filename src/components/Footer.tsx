@@ -85,12 +85,21 @@ export default function Footer() {
                 onSubmit={async (e) => {
                   e.preventDefault();
                   const form = e.target as HTMLFormElement;
-                  const data = new FormData(form);
+                  const formData = new FormData(form);
+                  const params = new URLSearchParams(window.location.search);
+
+                  const payload = new URLSearchParams();
+                  payload.append('form_type', 'Newsletter (Footer)');
+                  payload.append('email', formData.get('entry.0987654321') as string);
+                  payload.append('utm_source', params.get('utm_source') || 'direct');
+                  payload.append('utm_medium', params.get('utm_medium') || 'organic');
+                  payload.append('utm_campaign', params.get('utm_campaign') || 'none');
+
                   try {
-                    await fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
+                    await fetch('https://script.google.com/macros/s/AKfycbysGFbxo9r41D5kMnKmO90rr9u_mzn5aBuhZG6AFvRZOhDtFJ9dclTHgJJqdcBNS-Ny/exec', {
                       method: 'POST',
                       mode: 'no-cors',
-                      body: data
+                      body: payload
                     });
                   } catch { /* no-cors */ }
                   setIsNewsletterPopupOpen(true);

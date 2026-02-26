@@ -1,4 +1,5 @@
 import { ChevronRight, Search, Briefcase, Users, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Courses() {
   return (
@@ -98,9 +99,9 @@ export default function Courses() {
                   <div className="text-2xl font-black text-[#0b1120]">₹649</div>
                 </div>
               </div>
-              <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                Enroll Now <ChevronRight className="w-5 h-5" />
-              </a>
+              <Link to="/courses/qualifier" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                View Details <ChevronRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
 
@@ -131,9 +132,9 @@ export default function Courses() {
                     <div className="text-xl font-black text-[#0b1120]">₹249<span className="text-sm text-gray-500 font-medium">/sub</span></div>
                   </div>
                 </div>
-                <a href="https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                  Enroll Now <ChevronRight className="w-4 h-4" />
-                </a>
+                <Link to="/courses/foundation-1" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                  View Details <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
@@ -161,9 +162,9 @@ export default function Courses() {
                     <div className="text-xl font-black text-[#0b1120]">₹249<span className="text-sm text-gray-500 font-medium">/sub</span></div>
                   </div>
                 </div>
-                <a href="https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                  Enroll Now <ChevronRight className="w-4 h-4" />
-                </a>
+                <Link to="/courses/foundation-2" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                  View Details <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
 
@@ -203,9 +204,9 @@ export default function Courses() {
                       <div className="text-xl font-black text-[#0b1120]">₹49<span className="text-sm text-gray-500 font-medium">/sub</span></div>
                     </div>
                   </div>
-                  <a href="https://pages.razorpay.com/pl_S7JFgVsj0mereC/view" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                    Enroll Now <ChevronRight className="w-4 h-4" />
-                  </a>
+                  <Link to="/courses/diploma" className="w-full py-3 bg-white text-[#0b1120] rounded-xl font-bold border-2 border-[#0b1120] hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                    View Details <ChevronRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
             </div>

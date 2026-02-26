@@ -109,6 +109,15 @@ app.get('/api/resources/subjects', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+app.get('/api/settings', async (req, res) => {
+    try {
+        const settings = await db.allAsync('SELECT * FROM settings');
+        const config = {};
+        settings.forEach(s => config[s.key] = s.value);
+        res.json(config);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // ========== ADMIN API ==========
 
 app.get('/api/admin/blogs', authMiddleware, async (req, res) => {
@@ -119,21 +128,21 @@ app.get('/api/admin/blogs', authMiddleware, async (req, res) => {
 });
 
 app.post('/api/admin/blogs', authMiddleware, async (req, res) => {
-    const { title, slug, category, content, image, date, read_time, published } = req.body;
+    const { title, slug, category, content, image, date, read_time, published, seo_title, seo_description, seo_keywords } = req.body;
     const finalSlug = slug || title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     try {
-        const result = await db.runAsync(`INSERT INTO blogs (title, slug, category, content, image, date, read_time, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [title || '', finalSlug, category || '', content || '', image || '', date || '', read_time || '5 min read', published ?? 1]);
+        const result = await db.runAsync(`INSERT INTO blogs (title, slug, category, content, image, date, read_time, published, seo_title, seo_description, seo_keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [title || '', finalSlug, category || '', content || '', image || '', date || '', read_time || '5 min read', published ?? 1, seo_title || '', seo_description || '', seo_keywords || '']);
         res.json({ id: result.lastID, message: 'Blog created' });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 app.put('/api/admin/blogs/:id', authMiddleware, async (req, res) => {
-    const { title, slug, category, content, image, date, read_time, published } = req.body;
+    const { title, slug, category, content, image, date, read_time, published, seo_title, seo_description, seo_keywords } = req.body;
     const finalSlug = slug || title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     try {
-        await db.runAsync(`UPDATE blogs SET title=?, slug=?, category=?, content=?, image=?, date=?, read_time=?, published=?, updated_at=datetime('now') WHERE id=?`,
-            [title, finalSlug, category, content, image, date, read_time, published ?? 1, req.params.id]);
+        await db.runAsync(`UPDATE blogs SET title=?, slug=?, category=?, content=?, image=?, date=?, read_time=?, published=?, seo_title=?, seo_description=?, seo_keywords=?, updated_at=datetime('now') WHERE id=?`,
+            [title, finalSlug, category, content, image, date, read_time, published ?? 1, seo_title || '', seo_description || '', seo_keywords || '', req.params.id]);
         res.json({ message: 'Blog updated' });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -215,6 +224,24 @@ app.delete('/api/admin/widgets/:id', authMiddleware, async (req, res) => {
     try {
         await db.runAsync('DELETE FROM widgets WHERE id = ?', [req.params.id]);
         res.json({ message: 'Widget deleted' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// --- SETTINGS ---
+app.get('/api/admin/settings', authMiddleware, async (req, res) => {
+    try {
+        const settings = await db.allAsync('SELECT * FROM settings');
+        res.json(settings);
+    } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/admin/settings', authMiddleware, async (req, res) => {
+    const settings = req.body; // Expecting array of {key, value}
+    try {
+        for (const s of settings) {
+            await db.runAsync(`INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)`, [s.key, s.value]);
+        }
+        res.json({ message: 'Settings updated' });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 

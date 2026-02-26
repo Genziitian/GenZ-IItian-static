@@ -542,6 +542,7 @@
                 <div class="nav-item" data-page="blogs" onclick="switchPage('blogs')">📝 Blog Posts</div>
                 <div class="nav-item" data-page="resources" onclick="switchPage('resources')">📚 Resources</div>
                 <div class="nav-item" data-page="widgets" onclick="switchPage('widgets')">🖼️ Sidebar Widgets</div>
+                <div class="nav-item" data-page="settings" onclick="switchPage('settings')">⚙️ SEO Settings</div>
             </div>
             <div class="sidebar-footer"><button class="btn btn-ghost btn-full" onclick="logout()">🚪 Logout</button>
             </div>
@@ -672,34 +673,94 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SEO Settings -->
+            <div class="page" id="page-settings" style="display:none">
+                <div class="page-header">
+                    <h1>SEO & Global Settings</h1>
+                    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                </div>
+                <div class="card" style="padding: 2rem;">
+                    <div id="settingsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Populated by JS -->
+                        <div class="empty-state">Loading settings...</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Blog Modal -->
     <div class="modal-overlay" id="blogModal">
-        <div class="modal">
+        <div class="modal" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 id="blogModalTitle">New Blog Post</h3><button class="close-btn"
-                    onclick="closeBlogModal()">✕</button>
+                <h3 id="blogModalTitle">New Blog Post</h3>
+                <button class="close-btn" onclick="closeBlogModal()">✕</button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="blogId">
-                <div class="form-group"><label>Title</label><input type="text" id="blogTitle" oninput="autoSlug()">
+                <div style="display:flex; gap:1rem; border-bottom:2px solid #334155; margin-bottom:1.5rem">
+                    <button class="btn btn-sm btn-ghost active-tab" id="tabContent"
+                        onclick="switchBlogTab('content')">Content</button>
+                    <button class="btn btn-sm btn-ghost" id="tabSEO" onclick="switchBlogTab('seo')">SEO Details</button>
                 </div>
-                <div class="form-group"><label>URL Slug</label><input type="text" id="blogSlug">
-                    <div style="font-size:.7rem;color:#64748b;margin-top:.3rem">Preview: <span style="color:#10b981"
-                            id="slugPreview">—</span></div>
+
+                <div id="blogTabContent">
+                    <input type="hidden" id="blogId">
+                    <div class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Title</label><input type="text" id="blogTitle"
+                                oninput="autoSlug()"></div>
+                        <div class="form-group"><label>Category</label><input type="text" id="blogCategory"></div>
+                    </div>
+                    <div class="form-group"><label>URL Slug</label><input type="text" id="blogSlug">
+                        <div style="font-size:.7rem;color:#64748b;margin-top:.3rem">Preview: <span style="color:#10b981"
+                                id="slugPreview">—</span></div>
+                    </div>
+                    <div class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group"><label>Image URL</label><input type="text" id="blogImage"></div>
+                        <div class="form-group"><label>Date / Read Time</label>
+                            <div style="display:flex; gap:.5rem">
+                                <input type="text" id="blogDate" placeholder="Oct 12, 2024">
+                                <input type="text" id="blogReadTime" placeholder="5 min read">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display:flex; justify-content:space-between; align-items:center">
+                            Article Content (Rich Text)
+                            <div class="toolbar" style="display:flex; gap:.5rem">
+                                <button class="btn btn-sm btn-ghost" title="Add Video"
+                                    onclick="insertContent('video')">📹 Video</button>
+                                <button class="btn btn-sm btn-ghost" title="Add Button"
+                                    onclick="insertContent('button')">🔘 Button</button>
+                                <button class="btn btn-sm btn-ghost" title="Add Statistics"
+                                    onclick="insertContent('stats')">📊 Stats</button>
+                                <button class="btn btn-sm btn-ghost" title="Add Highlight"
+                                    onclick="insertContent('highlight')">💡 Box</button>
+                            </div>
+                        </label>
+                        <textarea id="blogContent"
+                            style="min-height:300px; font-family: monospace; font-size: 0.85rem; line-height: 1.5;"></textarea>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:center;gap:.75rem"><label
+                            style="margin:0">Published</label><label class="toggle"><input type="checkbox"
+                                id="blogPublished" checked><span class="slider"></span></label></div>
                 </div>
-                <div class="form-group"><label>Category</label><input type="text" id="blogCategory"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="blogImage"></div>
-                <div class="form-group"><label>Date</label><input type="text" id="blogDate"></div>
-                <div class="form-group"><label>Read Time</label><input type="text" id="blogReadTime" value="5 min read">
+
+                <div id="blogTabSEO" style="display:none">
+                    <div class="form-group"><label>SEO Meta Title</label><input type="text" id="blogSeoTitle"
+                            placeholder="Custom SEO Title (defaults to blog title)"></div>
+                    <div class="form-group"><label>SEO Meta Description</label><textarea id="blogSeoDescription"
+                            style="min-height:80px"
+                            placeholder="Brief summary for search results (max 160 chars)"></textarea></div>
+                    <div class="form-group"><label>SEO Keywords</label><input type="text" id="blogSeoKeywords"
+                            placeholder="iit, madras, qualifier, preparation"></div>
+                    <div class="alert"
+                        style="background:#1e293b; border:1px solid #334155; padding:1rem; border-radius:0.75rem; font-size:0.8rem; color:#94a3b8">
+                        💡 <strong>Tip:</strong> These details help your blog rank better on Google. Make sure your
+                        keywords appear in the meta description!
+                    </div>
                 </div>
-                <div class="form-group"><label>Content</label><textarea id="blogContent"
-                        style="min-height:150px"></textarea></div>
-                <div class="form-group" style="display:flex;align-items:center;gap:.75rem"><label
-                        style="margin:0">Published</label><label class="toggle"><input type="checkbox"
-                            id="blogPublished" checked><span class="slider"></span></label></div>
             </div>
             <div class="modal-footer"><button class="btn btn-ghost" onclick="closeBlogModal()">Cancel</button><button
                     class="btn btn-primary" onclick="saveBlog()">Save</button></div>
@@ -836,10 +897,17 @@
         function logout() { fetch(`${API}/auth/logout`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } }); token = ''; localStorage.removeItem('admin_token'); showLogin() }
 
         // NAV
-        function switchPage(p) { document.querySelectorAll('.page').forEach(x => x.style.display = 'none'); document.getElementById(`page-${p}`).style.display = 'block'; document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); document.querySelector(`.nav-item[data-page="${p}"]`).classList.add('active') }
+        function switchPage(p) {
+            document.querySelectorAll('.page').forEach(x => x.style.display = 'none');
+            document.getElementById(`page-${p}`).style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const activeNav = document.querySelector(`.nav-item[data-page="${p}"]`);
+            if (activeNav) activeNav.classList.add('active');
+            if (p === 'settings') loadSettings();
+        }
 
         // DATA
-        async function loadAll() { await Promise.all([loadBlogs(), loadResources(), loadWidgets()]); updateStats() }
+        async function loadAll() { await Promise.all([loadBlogs(), loadResources(), loadWidgets(), loadSettings()]); updateStats() }
         async function loadBlogs() { try { const r = await fetch(`${API}/admin/blogs`, { headers: { Authorization: `Bearer ${token}` } }); blogsData = await r.json(); renderBlogs() } catch (e) { console.error(e) } }
         async function loadResources() { try { const r = await fetch(`${API}/admin/resources`, { headers: { Authorization: `Bearer ${token}` } }); resourcesData = await r.json(); renderResources() } catch (e) { console.error(e) } }
         async function loadWidgets() { try { const r = await fetch(`${API}/admin/widgets`, { headers: { Authorization: `Bearer ${token}` } }); widgetsData = await r.json(); renderWidgets() } catch (e) { console.error(e) } }
@@ -882,10 +950,107 @@
 
         // BLOG CRUD
         function autoSlug() { const t = document.getElementById('blogTitle').value; const s = t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); document.getElementById('blogSlug').value = s; document.getElementById('slugPreview').textContent = s ? `localhost:3000/blog/${s}` : '—' }
-        function openBlogModal(b = null) { document.getElementById('blogModalTitle').textContent = b ? 'Edit Blog' : 'New Blog Post'; document.getElementById('blogId').value = b ? b.id : ''; document.getElementById('blogTitle').value = b ? b.title : ''; document.getElementById('blogSlug').value = b ? b.slug : ''; document.getElementById('blogCategory').value = b ? b.category : ''; document.getElementById('blogImage').value = b ? b.image : ''; document.getElementById('blogDate').value = b ? b.date : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); document.getElementById('blogReadTime').value = b ? b.read_time : '5 min read'; document.getElementById('blogContent').value = b ? b.content : ''; document.getElementById('blogPublished').checked = b ? b.published === 1 : true; document.getElementById('slugPreview').textContent = b?.slug ? `localhost:3000/blog/${b.slug}` : '—'; document.getElementById('blogModal').classList.add('active') }
+        function switchBlogTab(t) {
+            document.getElementById('blogTabContent').style.display = t === 'content' ? 'block' : 'none';
+            document.getElementById('blogTabSEO').style.display = t === 'seo' ? 'block' : 'none';
+            document.getElementById('tabContent').classList.toggle('active-tab', t === 'content');
+            document.getElementById('tabSEO').classList.toggle('active-tab', t === 'seo');
+
+            // Re-style active tab
+            document.getElementById('tabContent').style.background = t === 'content' ? '#10b981' : 'transparent';
+            document.getElementById('tabContent').style.color = t === 'content' ? '#fff' : '#94a3b8';
+            document.getElementById('tabSEO').style.background = t === 'seo' ? '#10b981' : 'transparent';
+            document.getElementById('tabSEO').style.color = t === 'seo' ? '#fff' : '#94a3b8';
+        }
+        function openBlogModal(b = null) {
+            document.getElementById('blogModalTitle').textContent = b ? 'Edit Blog' : 'New Blog Post';
+            document.getElementById('blogId').value = b ? b.id : '';
+            document.getElementById('blogTitle').value = b ? b.title : '';
+            document.getElementById('blogSlug').value = b ? b.slug : '';
+            document.getElementById('blogCategory').value = b ? b.category : '';
+            document.getElementById('blogImage').value = b ? b.image : '';
+            document.getElementById('blogDate').value = b ? b.date : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('blogReadTime').value = b ? b.read_time : '5 min read';
+            document.getElementById('blogContent').value = b ? b.content : '';
+            document.getElementById('blogPublished').checked = b ? b.published === 1 : true;
+            document.getElementById('blogSeoTitle').value = b ? b.seo_title : '';
+            document.getElementById('blogSeoDescription').value = b ? b.seo_description : '';
+            document.getElementById('blogSeoKeywords').value = b ? b.seo_keywords : '';
+            document.getElementById('slugPreview').textContent = b?.slug ? `localhost:3000/blog/${b.slug}` : '—';
+            switchBlogTab('content');
+            document.getElementById('blogModal').classList.add('active');
+        }
         function closeBlogModal() { document.getElementById('blogModal').classList.remove('active') }
         function editBlog(id) { const b = blogsData.find(x => x.id === id); if (b) openBlogModal(b) }
-        async function saveBlog() { const id = document.getElementById('blogId').value; const d = { title: document.getElementById('blogTitle').value, slug: document.getElementById('blogSlug').value, category: document.getElementById('blogCategory').value, image: document.getElementById('blogImage').value, date: document.getElementById('blogDate').value, read_time: document.getElementById('blogReadTime').value, content: document.getElementById('blogContent').value, published: document.getElementById('blogPublished').checked ? 1 : 0 }; try { const r = await fetch(`${API}/admin/blogs${id ? '/' + id : ''}`, { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify(d) }); if (r.ok) { showToast(id ? 'Updated!' : 'Created!'); closeBlogModal(); await loadBlogs(); updateStats() } else showToast('Failed', true) } catch { showToast('Error', true) } }
+        async function saveBlog() {
+            const id = document.getElementById('blogId').value;
+            const d = {
+                title: document.getElementById('blogTitle').value,
+                slug: document.getElementById('blogSlug').value,
+                category: document.getElementById('blogCategory').value,
+                image: document.getElementById('blogImage').value,
+                date: document.getElementById('blogDate').value,
+                read_time: document.getElementById('blogReadTime').value,
+                content: document.getElementById('blogContent').value,
+                published: document.getElementById('blogPublished').checked ? 1 : 0,
+                seo_title: document.getElementById('blogSeoTitle').value,
+                seo_description: document.getElementById('blogSeoDescription').value,
+                seo_keywords: document.getElementById('blogSeoKeywords').value
+            };
+            try {
+                const r = await fetch(`${API}/admin/blogs${id ? '/' + id : ''}`, { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify(d) });
+                if (r.ok) { showToast(id ? 'Updated!' : 'Created!'); closeBlogModal(); await loadBlogs(); updateStats() } else showToast('Failed', true)
+            } catch { showToast('Error', true) }
+        }
+
+        function insertContent(type) {
+            const ta = document.getElementById('blogContent');
+            let snippet = '';
+            if (type === 'video') snippet = '\n<div class="aspect-video my-8 rounded-2xl overflow-hidden border-2 border-[#1e293b]">\n  <iframe class="w-full h-full" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>\n</div>\n';
+            if (type === 'button') snippet = '\n<div class="flex justify-center my-8">\n  <a href="URL" class="px-8 py-4 bg-[#10b981] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] hover:bg-[#059669] transition-all">CLICK HERE</a>\n</div>\n';
+            if (type === 'stats') snippet = '\n<div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-8">\n  <div class="p-4 bg-gray-50 rounded-xl border-2 border-gray-100 text-center">\n    <div class="text-2xl font-black text-[#10b981]">95%</div>\n    <div class="text-xs font-bold text-gray-500 uppercase">Success Rate</div>\n  </div>\n</div>\n';
+            if (type === 'highlight') snippet = '\n<div class="p-6 bg-[#f0fdf4] border-l-4 border-[#10b981] rounded-r-xl my-8">\n  <p class="text-[#065f46] font-medium italic">"Your beautiful quote or important highlight goes here."</p>\n</div>\n';
+
+            const start = ta.selectionStart;
+            ta.value = ta.value.substring(0, start) + snippet + ta.value.substring(ta.selectionEnd);
+            ta.focus();
+            ta.selectionStart = start + snippet.length;
+        }
+
+        // SETTINGS CRUD
+        let settingsData = [];
+        async function loadSettings() {
+            try {
+                const r = await fetch(`${API}/admin/settings`, { headers: { Authorization: `Bearer ${token}` } });
+                settingsData = await r.json();
+                renderSettings();
+            } catch (e) { console.error(e) }
+        }
+        function renderSettings() {
+            const container = document.getElementById('settingsContainer');
+            container.innerHTML = settingsData.map(s => `
+                <div class="form-group">
+                    <label>${esc(s.key.replace(/_/g, ' '))}</label>
+                    ${s.key.includes('description') || s.key.includes('keywords')
+                    ? `<textarea class="setting-input" data-key="${esc(s.key)}" style="min-height:80px">${esc(s.value)}</textarea>`
+                    : `<input type="text" class="setting-input" data-key="${esc(s.key)}" value="${esc(s.value)}">`
+                }
+                </div>
+            `).join('');
+        }
+        async function saveSettings() {
+            const inputs = document.querySelectorAll('.setting-input');
+            const data = Array.from(inputs).map(i => ({ key: i.dataset.key, value: i.value }));
+            try {
+                const r = await fetch(`${API}/admin/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                    body: JSON.stringify(data)
+                });
+                if (r.ok) showToast('Settings saved!');
+                else showToast('Failed to save', true);
+            } catch { showToast('Error saving settings', true) }
+        }
 
         // RESOURCE CRUD
         function toggleSubType() { document.getElementById('subTypeGroup').style.display = document.getElementById('resourceType').value === 'pyq' ? 'block' : 'none' }

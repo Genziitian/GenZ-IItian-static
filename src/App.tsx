@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -12,6 +13,25 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 
 export default function App() {
+  useEffect(() => {
+    // Fetch Global Settings for SEO
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(config => {
+        if (config.site_title) document.title = config.site_title;
+        if (config.site_description) {
+          let meta = document.querySelector('meta[name="description"]');
+          if (!meta) {
+            meta = document.createElement('meta');
+            meta.setAttribute('name', 'description');
+            document.head.appendChild(meta);
+          }
+          meta.setAttribute('content', config.site_description);
+        }
+      })
+      .catch(() => { });
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-white text-[#0b1120] font-sans selection:bg-blue-100 flex flex-col">

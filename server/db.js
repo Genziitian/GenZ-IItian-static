@@ -14,7 +14,14 @@ if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const db = new sqlite3.Database(dbPath);
+const sqlite = sqlite3.verbose();
+const db = new sqlite.Database(dbPath, (err) => {
+  if (err) {
+    console.error('❌ Could not connect to database:', err.message);
+  } else {
+    console.log('✅ Connected to SQLite database.');
+  }
+});
 
 // Helper to run queries as promises
 db.runAsync = (sql, params = []) => new Promise((resolve, reject) => {
@@ -58,8 +65,16 @@ const init = async () => {
         date TEXT NOT NULL DEFAULT '',
         read_time TEXT NOT NULL DEFAULT '5 min read',
         published INTEGER NOT NULL DEFAULT 1,
+        seo_title TEXT NOT NULL DEFAULT '',
+        seo_description TEXT NOT NULL DEFAULT '',
+        seo_keywords TEXT NOT NULL DEFAULT '',
         created_at TEXT NOT NULL DEFAULT (datetime('now')),
         updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+
+      CREATE TABLE IF NOT EXISTS settings (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
       );
 
       CREATE TABLE IF NOT EXISTS resources (
@@ -92,6 +107,25 @@ const init = async () => {
   try { await db.execAsync(`ALTER TABLE blogs ADD COLUMN slug TEXT NOT NULL DEFAULT ''`); } catch (e) { }
   try { await db.execAsync(`ALTER TABLE resources ADD COLUMN sub_type TEXT NOT NULL DEFAULT ''`); } catch (e) { }
   try { await db.execAsync(`ALTER TABLE resources ADD COLUMN description TEXT NOT NULL DEFAULT ''`); } catch (e) { }
+  try { await db.execAsync(`ALTER TABLE blogs ADD COLUMN seo_title TEXT NOT NULL DEFAULT ''`); } catch (e) { }
+  try { await db.execAsync(`ALTER TABLE blogs ADD COLUMN seo_description TEXT NOT NULL DEFAULT ''`); } catch (e) { }
+  try { await db.execAsync(`ALTER TABLE blogs ADD COLUMN seo_keywords TEXT NOT NULL DEFAULT ''`); } catch (e) { }
+
+  // Seed Settings
+  const settingsCount = await db.getAsync('SELECT COUNT(*) as count FROM settings');
+  if (settingsCount.count === 0) {
+    const defaultSettings = [
+      { k: 'site_title', v: 'Gen-Z IITian | We transform You into genz iitians' },
+      { k: 'site_description', v: 'Leading education platform for IIT Madras BS degree aspirants.' },
+      { k: 'site_keywords', v: 'IIT Madras, BS Degree, Qualifier, Data Science, Aero' },
+      { k: 'og_image', v: 'https://app.genziitian.in/og-image.jpg' },
+      { k: 'ga_id', v: '' },
+      { k: 'fb_pixel', v: '' }
+    ];
+    for (const s of defaultSettings) {
+      await db.runAsync(`INSERT INTO settings (key, value) VALUES (?, ?)`, [s.k, s.v]);
+    }
+  }
 
   // Seed Blogs
   const blogCount = await db.getAsync('SELECT COUNT(*) as count FROM blogs');

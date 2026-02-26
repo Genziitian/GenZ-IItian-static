@@ -11,6 +11,9 @@ interface BlogPost {
     image: string;
     date: string;
     read_time: string;
+    seo_title: string;
+    seo_description: string;
+    seo_keywords: string;
 }
 
 interface Widget {
@@ -63,6 +66,31 @@ export default function BlogDetail() {
             .catch(() => { });
     }, [slug]);
 
+    useEffect(() => {
+        if (blog) {
+            // Update Title
+            document.title = blog.seo_title || `${blog.title} | Gen-Z IITian`;
+
+            // Update Meta Description
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.setAttribute('name', 'description');
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.setAttribute('content', blog.seo_description || `Read about ${blog.title} on Gen-Z IITian.`);
+
+            // Update Meta Keywords
+            let metaKey = document.querySelector('meta[name="keywords"]');
+            if (!metaKey) {
+                metaKey = document.createElement('meta');
+                metaKey.setAttribute('name', 'keywords');
+                document.head.appendChild(metaKey);
+            }
+            metaKey.setAttribute('content', blog.seo_keywords || 'iit, madras, bs, qualifier');
+        }
+    }, [blog]);
+
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
         setCopied(true);
@@ -70,6 +98,17 @@ export default function BlogDetail() {
     };
 
     const renderContent = (content: string) => {
+        // If content contains HTML tags, render it as HTML
+        if (content.includes('<') && content.includes('>')) {
+            return (
+                <div
+                    className="rich-text-content"
+                    dangerouslySetInnerHTML={{ __html: content }}
+                />
+            );
+        }
+
+        // Fallback to legacy markdown-style rendering for old posts
         return content.split('\n').map((line, i) => {
             if (line.startsWith('## ')) return <h2 key={i} className="text-2xl lg:text-3xl font-black text-[#0b1120] mt-10 mb-4">{line.slice(3)}</h2>;
             if (line.startsWith('### ')) return <h3 key={i} className="text-xl lg:text-2xl font-black text-[#0b1120] mt-8 mb-3">{line.slice(4)}</h3>;
