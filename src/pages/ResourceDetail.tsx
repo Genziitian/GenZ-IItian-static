@@ -31,7 +31,7 @@ export default function ResourceDetail() {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:3001/api/resources?level=${encodeURIComponent(decodedLevel)}&subject=${encodeURIComponent(decodedSubject)}`)
+        fetch(`/api/resources?level=${encodeURIComponent(decodedLevel)}&subject=${encodeURIComponent(decodedSubject)}`)
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) setResources(data);
@@ -110,8 +110,8 @@ export default function ResourceDetail() {
                                 key={tab.key}
                                 onClick={() => setActiveTab(tab.key)}
                                 className={`flex items-center gap-2 py-4 px-5 text-sm font-black whitespace-nowrap border-b-[3px] transition-all ${activeTab === tab.key
-                                        ? `border-[${tab.color}] text-[#0b1120]`
-                                        : 'border-transparent text-gray-400 hover:text-[#0b1120]'
+                                    ? `border-[${tab.color}] text-[#0b1120]`
+                                    : 'border-transparent text-gray-400 hover:text-[#0b1120]'
                                     }`}
                                 style={activeTab === tab.key ? { borderColor: tab.color } : {}}
                             >

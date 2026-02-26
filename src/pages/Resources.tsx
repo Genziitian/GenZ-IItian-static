@@ -83,7 +83,7 @@ export default function Resources() {
       return;
     }
     setPyqLoading(true);
-    fetch(`http://localhost:3001/api/resources?level=${encodeURIComponent(pyqLevel)}&subject=${encodeURIComponent(pyqSubject)}&type=pyq`)
+    fetch(`/api/resources?level=${encodeURIComponent(pyqLevel)}&subject=${encodeURIComponent(pyqSubject)}&type=pyq`)
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data)) {

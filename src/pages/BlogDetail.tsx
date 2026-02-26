@@ -52,12 +52,12 @@ export default function BlogDetail() {
     useEffect(() => {
         setLoading(true);
         setError(false);
-        fetch(`http://localhost:3001/api/blogs/${slug}`)
+        fetch(`/api/blogs/${slug}`)
             .then(res => { if (!res.ok) throw new Error('Not found'); return res.json(); })
             .then(data => { setBlog(data); setLoading(false); })
             .catch(() => { setError(true); setLoading(false); });
 
-        fetch('http://localhost:3001/api/widgets')
+        fetch('/api/widgets')
             .then(res => res.json())
             .then(data => { if (Array.isArray(data)) setWidgets(data); })
             .catch(() => { });

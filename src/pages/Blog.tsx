@@ -81,12 +81,12 @@ export default function Blog() {
   const [widgets, setWidgets] = useState<Widget[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/blogs')
+    fetch('/api/blogs')
       .then(res => res.json())
       .then(data => { if (Array.isArray(data) && data.length > 0) setBlogs(data); })
       .catch(() => { });
 
-    fetch('http://localhost:3001/api/widgets')
+    fetch('/api/widgets')
       .then(res => res.json())
       .then(data => { if (Array.isArray(data)) setWidgets(data); })
       .catch(() => { });
