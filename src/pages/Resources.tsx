@@ -100,7 +100,7 @@ export default function Resources() {
 
   const handleLevelSelect = (level: string) => {
     if (level === "Qualifier") {
-      window.open(QUALIFIER_URL, '_blank');
+      window.open("https://medium.com/@genziitian/qualifier-resources-10dbf8c4a5a9", '_blank');
       setOpenDropdown(null);
       return;
     }
