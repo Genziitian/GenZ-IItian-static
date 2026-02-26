@@ -108,7 +108,10 @@ export default function Home() {
                   </p>
 
                   <div className="flex items-end gap-3 mb-6">
-                    <span className="text-4xl font-black text-[#0b1120]">₹649</span>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold text-gray-500 mb-0.5">Starting at</span>
+                      <span className="text-4xl font-black text-[#0b1120] leading-none">₹649</span>
+                    </div>
                     <span className="text-xl font-bold text-gray-400 line-through mb-1">₹999</span>
                     <span className="px-2 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-xs font-black mb-2">35% off</span>
                   </div>
@@ -147,7 +150,10 @@ export default function Home() {
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
-                    <span className="text-2xl font-black text-[#0b1120]">₹249</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹249</span>
+                    </div>
                     <span className="text-sm font-bold text-gray-400 line-through mb-1">₹499</span>
                     <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
                   </div>
@@ -182,7 +188,10 @@ export default function Home() {
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
-                    <span className="text-2xl font-black text-[#0b1120]">₹249</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹249</span>
+                    </div>
                     <span className="text-sm font-bold text-gray-400 line-through mb-1">₹499</span>
                     <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
                   </div>
@@ -217,7 +226,10 @@ export default function Home() {
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
-                    <span className="text-2xl font-black text-[#0b1120]">₹49</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹49</span>
+                    </div>
                     <span className="text-sm font-bold text-gray-400 line-through mb-1">₹99</span>
                     <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
                   </div>

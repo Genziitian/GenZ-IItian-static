@@ -44,7 +44,7 @@ export default function About() {
                 MEET THE FOUNDER
               </div>
               <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-6">
-                Sriram K.
+                Sriram
               </h2>
               <p className="text-xl text-[#0b1120] font-bold mb-6 italic">
                 "Education is not just about learning facts, but training the mind to think."
@@ -58,14 +58,14 @@ export default function About() {
                 </p>
               </div>
               <div className="flex gap-4 mt-8">
-                <a href="#" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
+                <a href="https://www.linkedin.com/in/hustlewithsriram/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
                   <span className="text-xl">💼</span>
                 </a>
-                <a href="#" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
+                <a href="https://www.instagram.com/curious_sri/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
                   <span className="text-xl">📸</span>
                 </a>
-                <a href="#" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
-                  <span className="text-xl">🐦</span>
+                <a href="https://www.youtube.com/@SriRam_in" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border-2 border-[#0b1120] flex items-center justify-center bg-white hover:bg-gray-50 transition-colors">
+                  <span className="text-xl">📺</span>
                 </a>
               </div>
             </div>
