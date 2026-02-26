@@ -66,19 +66,22 @@ app.get('/api/auth/check', authMiddleware, (req, res) => {
 
 // ========== PUBLIC API ==========
 
-app.get('/api/blogs', (req, res) => {
-    const blogs = db.prepare('SELECT * FROM blogs WHERE published = 1 ORDER BY id DESC').all();
-    res.json(blogs);
+app.get('/api/blogs', async (req, res) => {
+    try {
+        const blogs = await db.allAsync('SELECT * FROM blogs WHERE published = 1 ORDER BY id DESC');
+        res.json(blogs);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.get('/api/blogs/:slug', (req, res) => {
-    const blog = db.prepare('SELECT * FROM blogs WHERE slug = ? AND published = 1').get(req.params.slug);
-    if (!blog) return res.status(404).json({ error: 'Blog not found' });
-    res.json(blog);
+app.get('/api/blogs/:slug', async (req, res) => {
+    try {
+        const blog = await db.getAsync('SELECT * FROM blogs WHERE slug = ? AND published = 1', [req.params.slug]);
+        if (!blog) return res.status(404).json({ error: 'Blog not found' });
+        res.json(blog);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// Get all published resources (with optional filters)
-app.get('/api/resources', (req, res) => {
+app.get('/api/resources', async (req, res) => {
     const { level, subject, type } = req.query;
     let query = 'SELECT * FROM resources WHERE published = 1';
     const params = [];
@@ -86,105 +89,133 @@ app.get('/api/resources', (req, res) => {
     if (subject) { query += ' AND subject = ?'; params.push(subject); }
     if (type) { query += ' AND resource_type = ?'; params.push(type); }
     query += ' ORDER BY level, subject, resource_type, sub_type, id';
-    res.json(db.prepare(query).all(...params));
+
+    try {
+        const resources = await db.allAsync(query, params);
+        res.json(resources);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// Get distinct subjects for a level
-app.get('/api/resources/subjects', (req, res) => {
+app.get('/api/resources/subjects', async (req, res) => {
     const { level } = req.query;
     let query = 'SELECT DISTINCT level, subject FROM resources WHERE published = 1';
     const params = [];
     if (level) { query += ' AND level = ?'; params.push(level); }
     query += ' ORDER BY level, subject';
-    res.json(db.prepare(query).all(...params));
+
+    try {
+        const subjects = await db.allAsync(query, params);
+        res.json(subjects);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // ========== ADMIN API ==========
 
-// --- BLOGS ---
-app.get('/api/admin/blogs', authMiddleware, (req, res) => {
-    res.json(db.prepare('SELECT * FROM blogs ORDER BY id DESC').all());
+app.get('/api/admin/blogs', authMiddleware, async (req, res) => {
+    try {
+        const blogs = await db.allAsync('SELECT * FROM blogs ORDER BY id DESC');
+        res.json(blogs);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.get('/api/admin/blogs/:id', authMiddleware, (req, res) => {
-    const blog = db.prepare('SELECT * FROM blogs WHERE id = ?').get(req.params.id);
-    if (!blog) return res.status(404).json({ error: 'Blog not found' });
-    res.json(blog);
-});
-
-app.post('/api/admin/blogs', authMiddleware, (req, res) => {
+app.post('/api/admin/blogs', authMiddleware, async (req, res) => {
     const { title, slug, category, content, image, date, read_time, published } = req.body;
-    const finalSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    const result = db.prepare(`INSERT INTO blogs (title, slug, category, content, image, date, read_time, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
-        .run(title || '', finalSlug, category || '', content || '', image || '', date || '', read_time || '5 min read', published ?? 1);
-    res.json({ id: result.lastInsertRowid, message: 'Blog created' });
+    const finalSlug = slug || title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    try {
+        const result = await db.runAsync(`INSERT INTO blogs (title, slug, category, content, image, date, read_time, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [title || '', finalSlug, category || '', content || '', image || '', date || '', read_time || '5 min read', published ?? 1]);
+        res.json({ id: result.lastID, message: 'Blog created' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.put('/api/admin/blogs/:id', authMiddleware, (req, res) => {
+app.put('/api/admin/blogs/:id', authMiddleware, async (req, res) => {
     const { title, slug, category, content, image, date, read_time, published } = req.body;
-    const finalSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    db.prepare(`UPDATE blogs SET title=?, slug=?, category=?, content=?, image=?, date=?, read_time=?, published=?, updated_at=datetime('now') WHERE id=?`)
-        .run(title, finalSlug, category, content, image, date, read_time, published ?? 1, req.params.id);
-    res.json({ message: 'Blog updated' });
+    const finalSlug = slug || title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    try {
+        await db.runAsync(`UPDATE blogs SET title=?, slug=?, category=?, content=?, image=?, date=?, read_time=?, published=?, updated_at=datetime('now') WHERE id=?`,
+            [title, finalSlug, category, content, image, date, read_time, published ?? 1, req.params.id]);
+        res.json({ message: 'Blog updated' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.delete('/api/admin/blogs/:id', authMiddleware, (req, res) => {
-    db.prepare('DELETE FROM blogs WHERE id = ?').run(req.params.id);
-    res.json({ message: 'Blog deleted' });
+app.delete('/api/admin/blogs/:id', authMiddleware, async (req, res) => {
+    try {
+        await db.runAsync('DELETE FROM blogs WHERE id = ?', [req.params.id]);
+        res.json({ message: 'Blog deleted' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // --- RESOURCES ---
-app.get('/api/admin/resources', authMiddleware, (req, res) => {
-    res.json(db.prepare('SELECT * FROM resources ORDER BY level, subject, resource_type, sub_type, id DESC').all());
+app.get('/api/admin/resources', authMiddleware, async (req, res) => {
+    try {
+        const resources = await db.allAsync('SELECT * FROM resources ORDER BY level, subject, resource_type, sub_type, id DESC');
+        res.json(resources);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.post('/api/admin/resources', authMiddleware, (req, res) => {
+app.post('/api/admin/resources', authMiddleware, async (req, res) => {
     const { level, subject, resource_type, sub_type, title, description, url, published } = req.body;
-    const result = db.prepare(`INSERT INTO resources (level, subject, resource_type, sub_type, title, description, url, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
-        .run(level || '', subject || '', resource_type || 'note', sub_type || '', title || '', description || '', url || '', published ?? 1);
-    res.json({ id: result.lastInsertRowid, message: 'Resource created' });
+    try {
+        const result = await db.runAsync(`INSERT INTO resources (level, subject, resource_type, sub_type, title, description, url, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [level || '', subject || '', resource_type || 'note', sub_type || '', title || '', description || '', url || '', published ?? 1]);
+        res.json({ id: result.lastID, message: 'Resource created' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.put('/api/admin/resources/:id', authMiddleware, (req, res) => {
+app.put('/api/admin/resources/:id', authMiddleware, async (req, res) => {
     const { level, subject, resource_type, sub_type, title, description, url, published } = req.body;
-    db.prepare(`UPDATE resources SET level=?, subject=?, resource_type=?, sub_type=?, title=?, description=?, url=?, published=?, updated_at=datetime('now') WHERE id=?`)
-        .run(level, subject, resource_type, sub_type || '', title, description || '', url, published ?? 1, req.params.id);
-    res.json({ message: 'Resource updated' });
+    try {
+        await db.runAsync(`UPDATE resources SET level=?, subject=?, resource_type=?, sub_type=?, title=?, description=?, url=?, published=?, updated_at=datetime('now') WHERE id=?`,
+            [level, subject, resource_type, sub_type || '', title, description || '', url, published ?? 1, req.params.id]);
+        res.json({ message: 'Resource updated' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.delete('/api/admin/resources/:id', authMiddleware, (req, res) => {
-    db.prepare('DELETE FROM resources WHERE id = ?').run(req.params.id);
-    res.json({ message: 'Resource deleted' });
+app.delete('/api/admin/resources/:id', authMiddleware, async (req, res) => {
+    try {
+        await db.runAsync('DELETE FROM resources WHERE id = ?', [req.params.id]);
+        res.json({ message: 'Resource deleted' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // --- WIDGETS ---
-// Public
-app.get('/api/widgets', (req, res) => {
-    res.json(db.prepare('SELECT * FROM widgets WHERE published = 1 ORDER BY position ASC').all());
+app.get('/api/widgets', async (req, res) => {
+    try {
+        const widgets = await db.allAsync('SELECT * FROM widgets WHERE published = 1 ORDER BY position ASC');
+        res.json(widgets);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// Admin
-app.get('/api/admin/widgets', authMiddleware, (req, res) => {
-    res.json(db.prepare('SELECT * FROM widgets ORDER BY position ASC').all());
+app.get('/api/admin/widgets', authMiddleware, async (req, res) => {
+    try {
+        const widgets = await db.allAsync('SELECT * FROM widgets ORDER BY position ASC');
+        res.json(widgets);
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.post('/api/admin/widgets', authMiddleware, (req, res) => {
+app.post('/api/admin/widgets', authMiddleware, async (req, res) => {
     const { title, image, link, position, published } = req.body;
-    const result = db.prepare(`INSERT INTO widgets (title, image, link, position, published) VALUES (?, ?, ?, ?, ?)`)
-        .run(title || '', image || '', link || '', position || 0, published ?? 1);
-    res.json({ id: result.lastInsertRowid, message: 'Widget created' });
+    try {
+        const result = await db.runAsync(`INSERT INTO widgets (title, image, link, position, published) VALUES (?, ?, ?, ?, ?)`,
+            [title || '', image || '', link || '', position || 0, published ?? 1]);
+        res.json({ id: result.lastID, message: 'Widget created' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.put('/api/admin/widgets/:id', authMiddleware, (req, res) => {
+app.put('/api/admin/widgets/:id', authMiddleware, async (req, res) => {
     const { title, image, link, position, published } = req.body;
-    db.prepare(`UPDATE widgets SET title=?, image=?, link=?, position=?, published=?, updated_at=datetime('now') WHERE id=?`)
-        .run(title, image, link, position || 0, published ?? 1, req.params.id);
-    res.json({ message: 'Widget updated' });
+    try {
+        await db.runAsync(`UPDATE widgets SET title=?, image=?, link=?, position=?, published=?, updated_at=datetime('now') WHERE id=?`,
+            [title, image, link, position || 0, published ?? 1, req.params.id]);
+        res.json({ message: 'Widget updated' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.delete('/api/admin/widgets/:id', authMiddleware, (req, res) => {
-    db.prepare('DELETE FROM widgets WHERE id = ?').run(req.params.id);
-    res.json({ message: 'Widget deleted' });
+app.delete('/api/admin/widgets/:id', authMiddleware, async (req, res) => {
+    try {
+        await db.runAsync('DELETE FROM widgets WHERE id = ?', [req.params.id]);
+        res.json({ message: 'Widget deleted' });
+    } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // --- CATCH-ALL FOR FRONTEND ---
@@ -194,11 +225,7 @@ app.get('*', (req, res) => {
     }
 });
 
-// ========== START ==========
-
 app.listen(PORT, () => {
     console.log(`\n  🔐 Admin Panel running at: http://localhost:${PORT}/admin`);
     console.log(`  📡 API running at: http://localhost:${PORT}/api\n`);
-    console.log(`  Admin Login: ${ADMIN_USER} / ${ADMIN_PASS}\n`);
 });
-
