@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Mail, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -117,16 +117,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-                    <div className="relative w-full sm:w-32">
-                      <select className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-xl px-4 py-3 font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]">
-                        <option>INR</option>
-                        <option>USD</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                      </div>
-                    </div>
-                    <Link to="/courses/qualifier" className="flex-1 py-3 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
+                    <Link to="/courses/qualifier" className="w-full py-3 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
                       View Details
                     </Link>
                   </div>
@@ -159,16 +150,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex gap-3 mt-auto">
-                    <div className="relative w-24">
-                      <select className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-lg px-3 py-2 text-sm font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]">
-                        <option>INR</option>
-                        <option>USD</option>
-                      </select>
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                      </div>
-                    </div>
-                    <Link to="/courses/foundation-1" className="flex-1 py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
+                    <Link to="/courses/foundation-1" className="w-full py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
                       View Details
                     </Link>
                   </div>
@@ -197,16 +179,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex gap-3 mt-auto">
-                    <div className="relative w-24">
-                      <select className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-lg px-3 py-2 text-sm font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]">
-                        <option>INR</option>
-                        <option>USD</option>
-                      </select>
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                      </div>
-                    </div>
-                    <Link to="/courses/foundation-2" className="flex-1 py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
+                    <Link to="/courses/foundation-2" className="w-full py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
                       View Details
                     </Link>
                   </div>
@@ -235,16 +208,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex gap-3 mt-auto">
-                    <div className="relative w-24">
-                      <select className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-lg px-3 py-2 text-sm font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]">
-                        <option>INR</option>
-                        <option>USD</option>
-                      </select>
-                      <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                      </div>
-                    </div>
-                    <Link to="/courses/diploma" className="flex-1 py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
+                    <Link to="/courses/diploma" className="w-full py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
                       View Details
                     </Link>
                   </div>
@@ -358,9 +322,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { id: "yZ2RjBIXkpM", title: "Student Experience 1" },
-              { id: "Xml7SkIqKqw", title: "Student Experience 2" },
-              { id: "fqdPVCuJzzs", title: "Student Experience 3" }
+              { id: "yZ2RjBIXkpM", title: "Latest Placement Report 2026: Why You Should NOT Do Only IIT Madras BS Degree" },
+              { id: "Xml7SkIqKqw", title: "Fee Waiver Verification Mandatory | PAN, ITR & 26A Step-by-Step Verification Guide" },
+              { id: "fqdPVCuJzzs", title: "IIT Madras Launches New Degree for Space & Aeronautics" }
             ].map((video, i) => (
               <div key={i} className="bg-white border-[3px] border-[#0b1120] rounded-3xl overflow-hidden shadow-[8px_8px_0px_#0b1120] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0px_#0b1120] transition-all duration-300">
                 <div className="aspect-video relative bg-gray-100 border-b-[3px] border-[#0b1120]">
@@ -449,8 +413,8 @@ export default function Home() {
 
           {/* Text Content */}
           <div className="w-full lg:w-1/2 relative z-10">
-            <h2 className="text-4xl lg:text-6xl font-black text-white mb-8 leading-tight">
-              A Community That<br />Has<br />Your Back
+            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-8 leading-tight">
+              A Community That Has Your Back
             </h2>
 
             <ul className="space-y-6">
@@ -516,7 +480,7 @@ export default function Home() {
       <section className="bg-[#f8fafc] py-24 border-t-[3px] border-[#0b1120]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-4">Student Reviews & Shared Experiences</h2>
+            <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-4 max-w-[18rem] md:max-w-none mx-auto leading-tight">Student Reviews &amp; Shared Experiences</h2>
             <p className="text-gray-600 text-lg font-medium">Discover honest reviews and inspiring stories from students across India.</p>
           </div>
 
@@ -593,13 +557,14 @@ export default function Home() {
           {/* Left Side: Stats/Callout */}
           <div className="w-full lg:w-1/3 flex flex-col gap-6 relative z-10">
             <div className="bg-white border-[3px] border-[#0b1120] rounded-3xl p-8 shadow-[6px_6px_0px_#0b1120]">
-              <div className="text-5xl mb-4">💰</div>
-              <h3 className="text-2xl font-black text-[#0b1120] mb-2">Revenue Share</h3>
-              <div className="text-3xl font-black text-[#10b981] mb-4">60% from Batches</div>
+              <div className="w-16 h-16 rounded-full bg-[#ecfdf5] border-[3px] border-[#0b1120] flex items-center justify-center mb-4">
+                <Award className="w-8 h-8 text-[#10b981]" />
+              </div>
+              <h3 className="text-2xl font-black text-[#0b1120] mb-4">Revenue Share: <span className="text-[#10b981]">60% from Batches</span></h3>
               <p className="text-gray-600 font-bold mb-6">
                 Do you know our tutor earns 60% of direct revenue from Batches? Start earning today.
               </p>
-              <button className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
+              <button className="w-full py-4 bg-[#0b1120] text-white whitespace-nowrap rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
                 Become Instructor
               </button>
             </div>
@@ -608,7 +573,7 @@ export default function Home() {
           {/* Right Side: Content */}
           <div className="w-full lg:w-2/3 relative z-10 lg:pl-8">
             <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-6 leading-tight">
-              Start Sharing Skills,<br />Build Courses,<br />Earn Revenue.
+              Start Sharing Skills, Build Courses, Earn Revenue.
             </h2>
             <p className="text-gray-600 text-lg font-bold mb-10 max-w-xl">
               Join our platform, share your expertise, reach thousands of learners, and earn income effortlessly online today.
@@ -630,7 +595,7 @@ export default function Home() {
               ))}
             </div>
 
-            <button className="px-8 py-4 bg-[#10b981] text-white rounded-xl font-bold text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all">
+            <button className="px-8 py-4 bg-[#10b981] text-white rounded-xl font-bold text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] whitespace-nowrap hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all">
               Become Instructor
             </button>
           </div>
@@ -644,7 +609,7 @@ export default function Home() {
             <div className="inline-block px-4 py-1.5 bg-[#eef2ff] text-[#0b1120] font-bold text-sm rounded-full border-2 border-[#0b1120] w-fit mb-4">
               Knowledge Hub
             </div>
-            <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-4">
+            <h2 className="text-4xl lg:text-5xl font-black text-[#0b1120] mb-4 whitespace-nowrap">
               Blog and Articles
             </h2>
             <p className="text-gray-600 text-lg font-medium">
@@ -715,10 +680,10 @@ export default function Home() {
           <div className="bg-white border-[3px] border-[#0b1120] rounded-[2.5rem] p-8 lg:p-16 shadow-[16px_16px_0px_#0b1120]">
             <div className="text-center mb-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#eef2ff] border-[3px] border-[#0b1120] mb-6 shadow-[4px_4px_0px_#0b1120]">
-                <span className="text-3xl">📬</span>
+                <Mail className="w-8 h-8 text-[#0b1120]" />
               </div>
-              <h2 className="text-3xl lg:text-5xl font-black text-[#0b1120] mb-6 leading-tight">
-                Subscribe to Gen-Z IITian Weekly Newsletter
+              <h2 className="text-3xl lg:text-5xl font-black text-[#0b1120] mb-6 leading-tight max-w-[15rem] md:max-w-none mx-auto">
+                Subscribe to <br className="md:hidden" /> Gen-Z IITian <br className="md:hidden" /> Weekly Newsletter
               </h2>
               <p className="text-gray-600 text-lg font-bold">
                 Want to receive PYQs, free lectures, graded assignments, subject-wise blueprints, and most important questions?
