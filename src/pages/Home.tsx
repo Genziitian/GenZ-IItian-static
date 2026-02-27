@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, Mail, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import HeroAnimation from '../components/HeroAnimation';
 
 export default function Home() {
   const [isNewsletterPopupOpen, setIsNewsletterPopupOpen] = useState(false);
@@ -11,30 +12,30 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white text-[#0b1120] font-sans selection:bg-blue-100 overflow-hidden">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-32 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Text Content */}
           <div className="relative z-10 flex flex-col items-start">
             <div className="inline-block px-4 py-1.5 bg-[#eef2ff] text-[#0b1120] font-bold text-sm rounded-full border-2 border-[#0b1120] mb-6">
               India's Best platform for Online/Hybrid Degree students.
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight mb-6 text-[#0b1120]">
-              We transform you into <br />
+            <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight mb-4 sm:mb-6 text-[#0b1120]">
+              Welcome to <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
-                Gen-Z IITians
+                Gen-Z IITian
               </span>
             </h1>
 
-            <p className="text-lg text-gray-600 font-medium mb-8 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 font-medium mb-6 sm:mb-8 max-w-xl leading-relaxed">
               We help online and hybrid degree students master IIT-level courses with smart notes, quizzes, PYQs, and expert-led lectures.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
-              <Link to="/courses" className="px-8 py-4 bg-[#10b981] text-white rounded-xl font-bold text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <Link to="/courses" className="px-5 py-3 sm:px-8 sm:py-4 bg-[#10b981] text-white rounded-xl font-bold text-base sm:text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all flex items-center gap-2">
                 Explore Courses <ChevronRight className="w-5 h-5" />
               </Link>
-              <a href="https://youtube.com/@Gen-ZIITian/" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-[#0b1120] rounded-xl font-bold text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all flex items-center gap-2">
+              <a href="https://youtube.com/@Gen-ZIITian/" target="_blank" rel="noopener noreferrer" className="px-5 py-3 sm:px-8 sm:py-4 bg-white text-[#0b1120] rounded-xl font-bold text-base sm:text-lg border-[3px] border-[#0b1120] shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
                 </div>
@@ -44,39 +45,7 @@ export default function Home() {
           </div>
 
           {/* Graphic/Animation Area */}
-          <div className="relative w-full aspect-square max-w-[600px] mx-auto">
-            <div className="absolute inset-0 bg-[#eef2ff] rounded-full border-[3px] border-[#0b1120] shadow-[12px_12px_0px_#0b1120]"></div>
-
-            {/* Floating Elements */}
-            <motion.div
-              animate={{ y: [-10, 10, -10], rotate: [-5, 5, -5] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-10 right-10 bg-white p-4 rounded-2xl border-[3px] border-[#0b1120] shadow-[6px_6px_0px_#0b1120]"
-            >
-              <span className="text-4xl">🎓</span>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [10, -10, 10], rotate: [5, -5, 5] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-20 left-0 bg-white p-4 rounded-2xl border-[3px] border-[#0b1120] shadow-[6px_6px_0px_#0b1120]"
-            >
-              <span className="text-4xl">🚀</span>
-            </motion.div>
-
-            <motion.div
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-[#10b981] rounded-[2rem] border-[3px] border-[#0b1120] flex items-center justify-center overflow-hidden"
-            >
-              <img src="https://picsum.photos/seed/student/400/400" alt="Student" className="w-full h-full object-cover opacity-80 mix-blend-multiply" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-white font-black text-4xl text-center leading-tight drop-shadow-md">
-                  Master<br />IIT-Level<br />Courses
-                </div>
-              </div>
-            </motion.div>
-          </div>
+          <HeroAnimation />
         </div>
       </section>
 
