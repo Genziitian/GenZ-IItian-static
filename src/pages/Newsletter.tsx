@@ -5,8 +5,8 @@ export default function Newsletter() {
   const [submitting, setSubmitting] = useState(false);
 
   return (
-    <div className="h-[calc(100vh-80px)] bg-white text-[#0b1120] font-sans selection:bg-blue-100 flex items-center">
-      <div className="max-w-7xl mx-auto px-6 w-full">
+    <div className="min-h-[calc(100vh-80px)] bg-white text-[#0b1120] font-sans selection:bg-blue-100 flex items-center py-10 lg:py-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* Left Side: Features */}
           <div>
