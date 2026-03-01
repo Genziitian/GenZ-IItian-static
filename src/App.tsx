@@ -11,6 +11,7 @@ import Resources from './pages/Resources';
 import ResourceDetail from './pages/ResourceDetail';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Newsletter from './pages/Newsletter';
 
 export default function App() {
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/newsletter" element={<Newsletter />} />
           </Routes>
         </main>
         <Footer />

@@ -1,4 +1,4 @@
-import { ChevronRight, Search, Briefcase, Users, Zap } from 'lucide-react';
+import { ChevronRight, Search, Briefcase, Users, Zap, GraduationCap, Building2, Rocket, Target, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Courses() {
@@ -61,13 +61,13 @@ export default function Courses() {
           <div className="lg:col-span-1 bg-white border-[3px] border-[#0b1120] rounded-[2rem] p-8 shadow-[8px_8px_0px_#10b981] flex flex-col relative overflow-hidden group hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[16px_16px_0px_#10b981] transition-all duration-300">
             <div className="absolute top-0 right-0 w-32 h-32 bg-red-100 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
 
-            <div className="text-5xl mb-6">🎓</div>
+            <div className="w-14 h-14 rounded-2xl bg-red-100 border-2 border-[#0b1120] flex items-center justify-center mb-6"><GraduationCap className="w-7 h-7 text-[#0b1120]" /></div>
             <h3 className="text-3xl font-black text-[#0b1120] mb-2 leading-tight">Qualifier Course</h3>
             <p className="text-gray-600 font-bold mb-6">Complete Week 1-4 Prep</p>
 
             {/* Thumbnail Placeholder */}
             <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] mb-6 overflow-hidden relative">
-              <img src="https://picsum.photos/seed/qualifier/400/225" alt="Course Thumbnail" className="w-full h-full object-cover" />
+              <img src="/Image/Qualifier.png" alt="Qualifier Course Thumbnail" className="w-full h-full object-contain" />
               <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                 <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b1120"><path d="M8 5v14l11-7z" /></svg>
@@ -92,7 +92,7 @@ export default function Courses() {
             <div className="pt-6 border-t-2 border-gray-100 mt-auto">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-1 text-yellow-500">
-                  ★★★★★ <span className="text-gray-600 text-sm ml-1">(4.9)</span>
+                  <span className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}</span> <span className="text-gray-600 text-sm ml-1">(4.9)</span>
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">starts from</div>
@@ -110,12 +110,12 @@ export default function Courses() {
 
             {/* Foundation Term 1 */}
             <div className="bg-white border-[3px] border-[#0b1120] rounded-[2rem] p-8 shadow-[8px_8px_0px_#0b1120] flex flex-col hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[12px_12px_0px_#0b1120] transition-all">
-              <div className="text-4xl mb-4">🏗️</div>
+              <div className="w-12 h-12 rounded-xl bg-blue-100 border-2 border-[#0b1120] flex items-center justify-center mb-4"><Building2 className="w-6 h-6 text-[#0b1120]" /></div>
               <h3 className="text-2xl font-black text-[#0b1120] mb-1">Foundation Term 1</h3>
-              <p className="text-gray-600 font-bold text-sm mb-6">Core subject mastery.</p>
+              <p className="text-gray-600 font-bold text-sm mb-6">Master Maths 1, Stats 1 & CT.</p>
 
               <div className="flex flex-wrap gap-2 mb-6 flex-grow">
-                {["Maths 1", "Stats 1", "CT", "English 1"].map((tag, i) => (
+                {["Maths 1", "Stats 1", "CT"].map((tag, i) => (
                   <span key={i} className="px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg text-xs font-bold text-gray-700">
                     {tag}
                   </span>
@@ -125,7 +125,7 @@ export default function Courses() {
               <div className="pt-6 border-t-2 border-gray-100 mt-auto">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                    ★★★★★ <span className="text-gray-600 ml-1">(4.8)</span>
+                    <span className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}</span> <span className="text-gray-600 ml-1">(4.8)</span>
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">starts from</div>
@@ -140,12 +140,12 @@ export default function Courses() {
 
             {/* Foundation Term 2 */}
             <div className="bg-white border-[3px] border-[#0b1120] rounded-[2rem] p-8 shadow-[8px_8px_0px_#0b1120] flex flex-col hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[12px_12px_0px_#0b1120] transition-all">
-              <div className="text-4xl mb-4">🚀</div>
+              <div className="w-12 h-12 rounded-xl bg-purple-100 border-2 border-[#0b1120] flex items-center justify-center mb-4"><Rocket className="w-6 h-6 text-[#0b1120]" /></div>
               <h3 className="text-2xl font-black text-[#0b1120] mb-1">Foundation Term 2</h3>
-              <p className="text-gray-600 font-bold text-sm mb-6">Advanced core subjects.</p>
+              <p className="text-gray-600 font-bold text-sm mb-6">Master Maths 2, Stats 2 & Python.</p>
 
               <div className="flex flex-wrap gap-2 mb-6 flex-grow">
-                {["Maths 2", "Stats 2", "Python", "English 2"].map((tag, i) => (
+                {["Maths 2", "Stats 2", "Python"].map((tag, i) => (
                   <span key={i} className="px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg text-xs font-bold text-gray-700">
                     {tag}
                   </span>
@@ -155,7 +155,7 @@ export default function Courses() {
               <div className="pt-6 border-t-2 border-gray-100 mt-auto">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                    ★★★★★ <span className="text-gray-600 ml-1">(4.9)</span>
+                    <span className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}</span> <span className="text-gray-600 ml-1">(4.9)</span>
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">starts from</div>
@@ -171,12 +171,12 @@ export default function Courses() {
             {/* Diploma Course */}
             <div className="md:col-span-2 bg-white border-[3px] border-[#0b1120] rounded-[2rem] p-8 shadow-[8px_8px_0px_#0b1120] flex flex-col sm:flex-row gap-6 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[12px_12px_0px_#0b1120] transition-all">
               <div className="flex-1">
-                <div className="text-4xl mb-4">🎯</div>
+                <div className="w-12 h-12 rounded-xl bg-green-100 border-2 border-[#0b1120] flex items-center justify-center mb-4"><Target className="w-6 h-6 text-[#0b1120]" /></div>
                 <h3 className="text-2xl font-black text-[#0b1120] mb-1">Diploma Course</h3>
-                <p className="text-gray-600 font-bold text-sm mb-4">Advanced specialization.</p>
+                <p className="text-gray-600 font-bold text-sm mb-4">₹49 per subject. Java, PDSA, DBMS, MLF.</p>
 
                 <ul className="space-y-2 mb-6">
-                  {["Recorded Classes", "Live Doubt Sessions", "Graded Assignments"].map((feature, i) => (
+                  {["Week 1-4 Recordings + Live Doubt Sessions", "Live PYQs & Revision Sessions", "Graded Assignments & Blueprint"].map((feature, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm font-bold text-gray-700">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0"></div>
                       {feature}
@@ -187,7 +187,7 @@ export default function Courses() {
 
               <div className="flex-1 flex flex-col">
                 <div className="flex flex-wrap gap-2 mb-6 flex-grow content-start">
-                  {["MLF", "DBMS", "PDSA", "JAVA", "App Dev"].map((tag, i) => (
+                  {["Java", "PDSA", "DBMS", "MLF"].map((tag, i) => (
                     <span key={i} className="px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg text-xs font-bold text-gray-700">
                       {tag}
                     </span>
@@ -197,7 +197,7 @@ export default function Courses() {
                 <div className="pt-6 border-t-2 border-gray-100 mt-auto">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                      ★★★★★ <span className="text-gray-600 ml-1">(5.0)</span>
+                      <span className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}</span> <span className="text-gray-600 ml-1">(5.0)</span>
                     </div>
                     <div className="text-right">
                       <div className="text-xs text-gray-500 font-bold uppercase tracking-wider">starts from</div>

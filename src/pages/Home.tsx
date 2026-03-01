@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronRight, Mail, Award } from 'lucide-react';
+import { ChevronRight, Mail, Award, CheckCircle2, X as XIcon, Star, PartyPopper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import HeroAnimation from '../components/HeroAnimation';
 
@@ -63,7 +63,7 @@ export default function Home() {
               <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row gap-8 transition-transform hover:-translate-y-1 hover:-translate-x-1">
                 {/* Image */}
                 <div className="w-full lg:w-1/2 aspect-video bg-gray-100 rounded-2xl border-2 border-[#0b1120] overflow-hidden relative">
-                  <img src="https://picsum.photos/seed/qualifier/800/450" alt="Qualifier Course" className="w-full h-full object-cover" />
+                  <img src="/Image/Qualifier.png" alt="Qualifier Course" className="w-full h-full object-contain" />
                 </div>
 
                 {/* Content */}
@@ -102,7 +102,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="https://picsum.photos/seed/found1/400/225" alt="Foundation Term 1" className="w-full h-full object-cover" />
+                    <img src="/Image/Fundation Term 1.png" alt="Foundation Term 1" className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-2">Foundation Term 1</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
@@ -131,7 +131,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="https://picsum.photos/seed/found2/400/225" alt="Foundation Term 2" className="w-full h-full object-cover" />
+                    <img src="/Image/Foundation Term 2.png" alt="Foundation Term 2" className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-2">Foundation Term 2</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
@@ -160,7 +160,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="https://picsum.photos/seed/diploma/400/225" alt="Diploma Course" className="w-full h-full object-cover" />
+                    <img src="/Image/Diploma.png" alt="Diploma Course" className="w-full h-full object-contain" />
                   </div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-2">Diploma Course</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
@@ -363,9 +363,9 @@ export default function Home() {
                           <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#0b1120] shrink-0"></div>
                           {feature}
                         </td>
-                        <td className="p-4 md:p-6 border-r-[3px] border-[#0b1120] bg-[#ecfdf5] text-center text-xl md:text-2xl">✅</td>
-                        <td className="p-4 md:p-6 border-r-[3px] border-[#0b1120] text-center text-xl md:text-2xl opacity-50 bg-white">❌</td>
-                        <td className="p-4 md:p-6 text-center text-xl md:text-2xl opacity-50 bg-white">❌</td>
+                        <td className="p-4 md:p-6 border-r-[3px] border-[#0b1120] bg-[#ecfdf5] text-center"><CheckCircle2 className="w-6 h-6 md:w-7 md:h-7 text-[#10b981] mx-auto" /></td>
+                        <td className="p-4 md:p-6 border-r-[3px] border-[#0b1120] text-center opacity-50 bg-white"><XIcon className="w-6 h-6 md:w-7 md:h-7 text-red-400 mx-auto" /></td>
+                        <td className="p-4 md:p-6 text-center opacity-50 bg-white"><XIcon className="w-6 h-6 md:w-7 md:h-7 text-red-400 mx-auto" /></td>
                       </tr>
                     ))}
                   </tbody>
@@ -511,7 +511,7 @@ export default function Home() {
                       <div className="text-sm font-bold text-gray-500">{review.role}</div>
                     </div>
                   </div>
-                  <div className="text-yellow-400 text-lg tracking-tighter">★★★★★</div>
+                  <div className="flex text-yellow-400 gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>
                 </div>
               </div>
             ))}
@@ -736,7 +736,7 @@ export default function Home() {
                 disabled={isSubmitting || isNewsletterSubmitted}
                 className="w-full py-5 bg-[#0b1120] text-white rounded-xl font-black text-xl border-[3px] border-[#0b1120] shadow-[6px_6px_0px_#10b981] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_#10b981] transition-all mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Sending...' : isNewsletterSubmitted ? 'Subscribed! 🎉' : 'Get Free Resources Now'}
+                {isSubmitting ? 'Sending...' : isNewsletterSubmitted ? 'Subscribed!' : 'Get Free Resources Now'}
               </button>
 
               <p className="text-center text-sm font-bold text-gray-500 mt-2">
@@ -757,7 +757,7 @@ export default function Home() {
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
-            <div className="text-5xl mb-6 text-center">🎉</div>
+            <div className="flex justify-center mb-6"><PartyPopper className="w-12 h-12 text-[#10b981]" /></div>
             <h3 className="text-2xl font-black text-[#0b1120] mb-4 text-center">Thanks for Subscribing!</h3>
             <p className="text-gray-600 font-bold text-center mb-8">
               We've received your enquiry. We'll keep you updated with the latest exam blueprints and resources.

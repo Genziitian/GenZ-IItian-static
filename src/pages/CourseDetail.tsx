@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { ChevronDown, ChevronRight, Play, Star, CheckCircle2, Shield, Zap, CreditCard, Users, Clock, BookOpen, Globe, Award, Briefcase, Search } from 'lucide-react';
+import { ChevronDown, ChevronRight, Play, Star, CheckCircle2, Shield, Zap, CreditCard, Users, Clock, BookOpen, Globe, Award, Briefcase, Search, Target, GraduationCap, Brain, FileText, Video, BarChart3, TrendingUp, Rocket, Trophy, MessageCircle, HelpCircle, Building2, Flame } from 'lucide-react';
 
 const RazorpayButton = ({ buttonId }: { buttonId: string }) => {
   const containerRef = useRef<HTMLFormElement>(null);
@@ -22,17 +22,256 @@ export default function CourseDetail() {
   const { id } = useParams();
   const [activeFaq, setActiveFaq] = useState<number | string | null>(null);
 
-  const getCourseTitle = (courseId: string | undefined) => {
-    switch (courseId) {
-      case 'qualifier': return 'Qualifier Course';
-      case 'foundation-1': return 'Foundation Term 1';
-      case 'foundation-2': return 'Foundation Term 2';
-      case 'diploma': return 'Diploma Course';
-      default: return 'Course Details';
-    }
+  // ─── Course Data ───
+  const courseData: Record<string, any> = {
+    'qualifier': {
+      title: 'Qualifier Course',
+      image: '/Image/Qualifier.png',
+      tagline: 'Complete Week 1-4 Prep',
+      description: 'Complete Week 1-4 preparation with live classes, PYQs, doubt sessions & expert mentorship. Your path to IIT Madras starts here.',
+      paymentLink: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+      razorpayButtonId: 'pl_SAz4NLS9RwPWyM',
+      useRazorpayButton: true,
+      heroPrice: '₹649',
+      heroOriginal: '₹999',
+      heroDiscount: '35% OFF',
+      syllabusItems: [
+        { title: "Mathematics 1", desc: "Foundation concepts & problem solving" },
+        { title: "Statistics 1", desc: "Data analysis & probability basics" },
+        { title: "Computational Thinking", desc: "Logic, algorithms & problem solving" },
+        { title: "English 1", desc: "Comprehension & communication" },
+      ],
+      plans: [
+        {
+          name: 'Basic',
+          price: '₹649',
+          color: 'gray',
+          features: ["Recorded Lectures", "Handwritten Notes", "PYQs (Recorded)", "Graded Assignments"],
+          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+        },
+        {
+          name: 'Advanced',
+          price: '₹799',
+          color: 'blue',
+          popular: true,
+          includesFrom: 'Basic',
+          extras: ["Live Lectures", "Live PYQs Session", "Live Revision Session", "Career Workshops"],
+          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+        },
+        {
+          name: 'Champion',
+          price: '₹999',
+          color: 'amber',
+          best: true,
+          refund: true,
+          includesFrom: 'Advanced',
+          extras: ["1:1 Mentorship", "Lifetime Reattempt", "Career Guidance"],
+          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+        },
+      ],
+      sidebarPlans: [
+        { label: 'Basic - ₹649', value: 'basic' },
+        { label: 'Advanced - ₹799', value: 'advanced' },
+        { label: 'Champion - ₹999', value: 'champion' },
+      ],
+      sidebarPrice: '₹649',
+      sidebarOriginal: '₹999',
+      sidebarDiscount: '35% off',
+      mobilePrice: '₹649',
+      mobileOriginal: '₹999',
+    },
+    'foundation-1': {
+      title: 'Foundation Term 1',
+      image: '/Image/Fundation Term 1.png',
+      tagline: 'IIT Madras BS – Term 1 Quiz 1 Foundation Course',
+      description: 'Best & Affordable Course to Master Maths 1, Stats 1, and Computational Thinking.',
+      paymentLink: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+      useRazorpayButton: false,
+      heroPrice: '₹249',
+      heroOriginal: '₹499',
+      heroDiscount: '50% OFF',
+      syllabusItems: [
+        { title: "Mathematics 1", desc: "Foundation-level maths concepts, calculus & algebra" },
+        { title: "Statistics 1", desc: "Data analysis, probability & descriptive stats" },
+        { title: "Computational Thinking", desc: "Logic, algorithms & problem-solving approach" },
+      ],
+      plans: [
+        {
+          name: 'Plan A: Champion (Live)',
+          subtitle: 'Most Popular',
+          price: '₹849',
+          priceLabel: 'Combo All 3 Subjects',
+          color: 'blue',
+          popular: true,
+          features: [
+            "Week 1-4 Detailed Recording + Live Lectures",
+            "Live PYQs Session",
+            "Live Revision Session",
+            "Weekly Doubt Session",
+            "Graded Assignment Recordings",
+            "Resume & LinkedIn Workshops",
+          ],
+          link: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+        },
+        {
+          name: 'Plan B: Basic (Recordings)',
+          price: '₹799',
+          priceLabel: 'Combo All 3 Subjects',
+          color: 'gray',
+          features: [
+            "Week 1-4 Detailed Recording Lectures",
+            "Recorded PYQs Session",
+            "Weekly Doubt Session",
+            "Graded Assignment Recordings",
+            "Best Handwritten Notes",
+            "Subject-wise Most Imp Questions & Blueprint",
+          ],
+          link: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+        },
+      ],
+      individualPricing: [
+        { subject: 'Maths 1 Live', price: '₹349' },
+        { subject: 'Stats 1 Live', price: '₹349' },
+        { subject: 'CT Live', price: '₹349' },
+        { subject: 'Maths 1 Recording', price: '₹249' },
+        { subject: 'Stats 1 Recording', price: '₹249' },
+        { subject: 'CT Recording', price: '₹249' },
+      ],
+      sidebarPlans: [
+        { label: '3 Sub Live Combo - ₹849', value: 'live-combo' },
+        { label: '3 Sub Recording Combo - ₹799', value: 'rec-combo' },
+        { label: 'Individual Subject - from ₹249', value: 'individual' },
+      ],
+      sidebarPrice: '₹249',
+      sidebarOriginal: '₹499',
+      sidebarDiscount: '50% off',
+      mobilePrice: '₹249',
+      mobileOriginal: '₹499',
+    },
+    'foundation-2': {
+      title: 'Foundation Term 2',
+      image: '/Image/Foundation Term 2.png',
+      tagline: 'IIT Madras BS – Term 2 Quiz 1 Foundation Course',
+      description: 'Best & Affordable Course to Master Maths 2, Stats 2, and Python.',
+      paymentLink: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+      useRazorpayButton: false,
+      heroPrice: '₹249',
+      heroOriginal: '₹499',
+      heroDiscount: '50% OFF',
+      syllabusItems: [
+        { title: "Mathematics 2", desc: "Advanced maths concepts, linear algebra & calculus" },
+        { title: "Statistics 2", desc: "Inferential statistics, hypothesis testing & regression" },
+        { title: "Python", desc: "Programming fundamentals, data structures & OOP" },
+      ],
+      plans: [
+        {
+          name: 'Plan A: Champion (Live)',
+          subtitle: 'Most Popular',
+          price: '₹849',
+          priceLabel: 'Combo All 3 Subjects',
+          color: 'blue',
+          popular: true,
+          features: [
+            "Week 1-4 Detailed Recording + Live Lectures",
+            "Live PYQs Session",
+            "Live Revision Session",
+            "Weekly Doubt Session",
+            "Graded Assignment Recordings",
+            "Resume & LinkedIn Workshops",
+          ],
+          link: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+        },
+        {
+          name: 'Plan B: Basic (Recordings)',
+          price: '₹749',
+          priceLabel: 'Combo All 3 Subjects',
+          color: 'gray',
+          features: [
+            "Week 1-4 Detailed Recording Lectures",
+            "Recorded PYQs Session",
+            "Weekly Doubt Session",
+            "Graded Assignment Recordings",
+            "Best Handwritten Notes",
+            "Subject-wise Most Imp Questions & Blueprint",
+          ],
+          link: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+        },
+      ],
+      individualPricing: [
+        { subject: 'Maths 2 Live', price: '₹349' },
+        { subject: 'Stats 2 Live', price: '₹349' },
+        { subject: 'Python Live', price: '₹349' },
+        { subject: 'Maths 2 Recording', price: '₹249' },
+        { subject: 'Stats 2 Recording', price: '₹249' },
+        { subject: 'Python Recording', price: '₹299' },
+      ],
+      sidebarPlans: [
+        { label: '3 Sub Live Combo - ₹849', value: 'live-combo' },
+        { label: '3 Sub Recording Combo - ₹749', value: 'rec-combo' },
+        { label: 'Individual Subject - from ₹249', value: 'individual' },
+      ],
+      sidebarPrice: '₹249',
+      sidebarOriginal: '₹499',
+      sidebarDiscount: '50% off',
+      mobilePrice: '₹249',
+      mobileOriginal: '₹499',
+    },
+    'diploma': {
+      title: 'Diploma Course',
+      image: '/Image/Diploma.png',
+      tagline: 'Diploma Batch Quiz 1\'26 – Java, PDSA, DBMS, MLF',
+      description: 'Advanced specialization with ₹49 per subject. Master Java, PDSA, DBMS & MLF with live doubt sessions and expert mentorship.',
+      paymentLink: 'https://pages.razorpay.com/pl_S7JFgVsj0mereC/view',
+      useRazorpayButton: false,
+      heroPrice: '₹49',
+      heroOriginal: '₹199',
+      heroDiscount: '75% OFF',
+      syllabusItems: [
+        { title: "Java", desc: "Object-oriented programming, data structures & design patterns" },
+        { title: "PDSA", desc: "Programming, Data Structures and Algorithms" },
+        { title: "DBMS", desc: "Database Management Systems, SQL & normalization" },
+        { title: "MLF", desc: "Machine Learning Foundations & applied concepts" },
+      ],
+      plans: [
+        {
+          name: 'Diploma All-Access',
+          subtitle: '₹49 per subject',
+          price: '₹49/sub',
+          priceLabel: 'Per Subject',
+          color: 'blue',
+          popular: true,
+          features: [
+            "Week 1-4 Detailed Recording + Live Doubt Session",
+            "Live PYQs Session",
+            "Live Revision Session",
+            "Weekly Doubt Session",
+            "Graded Assignment Recordings",
+            "Resume & LinkedIn Workshops",
+            "Subject-wise Most Imp Questions & Blueprint",
+          ],
+          link: 'https://pages.razorpay.com/pl_S7JFgVsj0mereC/view',
+        },
+      ],
+      individualPricing: [
+        { subject: 'Java', price: '₹49' },
+        { subject: 'PDSA', price: '₹49' },
+        { subject: 'DBMS', price: '₹49' },
+        { subject: 'MLF', price: '₹49' },
+      ],
+      sidebarPlans: [
+        { label: 'Per Subject - ₹49', value: 'per-sub' },
+      ],
+      sidebarPrice: '₹49',
+      sidebarOriginal: '₹199',
+      sidebarDiscount: '75% off',
+      mobilePrice: '₹49',
+      mobileOriginal: '₹199',
+    },
   };
 
-  const courseTitle = getCourseTitle(id);
+  const course = courseData[id || ''] || courseData['qualifier'];
+  const courseTitle = course.title;
+  const courseImage = course.image;
 
   const faqs = [
     {
@@ -61,7 +300,7 @@ export default function CourseDetail() {
                 <div className="flex flex-wrap gap-3">
                   <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-bold border border-blue-500/30">IIT Madras BS Degree</span>
                   <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-bold border border-purple-500/30">January 2026</span>
-                  <span className="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm font-bold border border-red-500/30">🔥 Limited Seats</span>
+                  <span className="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm font-bold border border-red-500/30 flex items-center gap-1"><Flame className="w-4 h-4" /> Limited Seats</span>
                 </div>
 
                 <h1 className="text-4xl lg:text-6xl font-black leading-tight">
@@ -69,11 +308,11 @@ export default function CourseDetail() {
                 </h1>
 
                 <div className="inline-block px-4 py-2 bg-[#10b981] text-[#0b1120] font-black rounded-lg w-fit transform -rotate-1">
-                  🛡️ Full Refund If Not Qualified!
+                  <Shield className="w-5 h-5 inline-block mr-1" /> {course.tagline}
                 </div>
 
                 <p className="text-gray-300 text-lg lg:text-xl font-medium max-w-xl">
-                  Complete Week 1-4 preparation with live classes, PYQs, doubt sessions & expert mentorship. Your path to IIT Madras starts here.
+                  {course.description}
                 </p>
 
                 <div className="flex flex-wrap gap-6 mt-2">
@@ -105,7 +344,7 @@ export default function CourseDetail() {
               <div className="relative lg:ml-auto w-full max-w-lg">
                 <div className="relative bg-white rounded-3xl border-[3px] border-[#0b1120] overflow-hidden flex flex-col shadow-[8px_8px_0px_#10b981]">
                   <div className="aspect-video bg-gray-200 relative group cursor-pointer">
-                    <img src="https://picsum.photos/seed/qualifier-hero/800/450" alt="Course Preview" className="w-full h-full object-cover" />
+                    <img src={courseImage} alt="Course Preview" className="w-full h-full object-contain" />
                     <div className="absolute inset-0 bg-black/30 flex items-center justify-center transition-colors group-hover:bg-black/40">
                       <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transform transition-transform group-hover:scale-110">
                         <Play className="w-6 h-6 text-[#0b1120] ml-1" fill="currentColor" />
@@ -134,20 +373,20 @@ export default function CourseDetail() {
                     </div>
                     <div className="flex items-end justify-between mb-4 flex-wrap gap-2">
                       <div>
-                        <div className="text-sm text-gray-500 font-bold line-through mb-0.5">₹999</div>
-                        <div className="text-2xl sm:text-3xl font-black text-[#0b1120]">Starts ₹649</div>
+                        <div className="text-sm text-gray-500 font-bold line-through mb-0.5">{course.heroOriginal}</div>
+                        <div className="text-2xl sm:text-3xl font-black text-[#0b1120]">Starts {course.heroPrice}</div>
                       </div>
                       <div className="px-3 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] sm:text-xs font-black">
-                        35% OFF
+                        {course.heroDiscount}
                       </div>
                     </div>
-                    {id === 'qualifier' ? (
+                    {course.useRazorpayButton ? (
                       <div className="w-full bg-[#0b1120] rounded-xl p-3 border-2 border-[#0b1120] hover:bg-gray-800 transition-colors shadow-lg flex flex-col items-center gap-1 group">
-                        <RazorpayButton buttonId="pl_SAz4NLS9RwPWyM" />
+                        <RazorpayButton buttonId={course.razorpayButtonId} />
                         <div className="text-[10px] sm:text-xs text-[#10b981] font-black uppercase tracking-wider">Get Secured Seat to BS</div>
                       </div>
                     ) : (
-                      <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_self" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex flex-col items-center justify-center gap-1 shadow-lg">
+                      <a href={course.paymentLink} target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex flex-col items-center justify-center gap-1 shadow-lg">
                         <div className="flex items-center gap-2">
                           Proceed to Payment <ChevronRight className="w-5 h-5" />
                         </div>
@@ -170,14 +409,14 @@ export default function CourseDetail() {
           {/* Who is This For? */}
           <section>
             <div className="text-center mb-10">
-              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3">🎯 Who Is This For?</h2>
+              <h2 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-3 flex items-center justify-center gap-2"><Target className="w-8 h-8 text-[#10b981]" /> Who Is This For?</h2>
               <p className="text-gray-600 font-bold max-w-2xl mx-auto">Whether you're starting fresh or leveling up, this cohort is designed for your success in the IIT Madras Qualifier.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#fef08a] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="text-4xl mb-4">🎓</div>
+                  <div className="w-12 h-12 rounded-xl bg-[#fef08a] border-2 border-[#0b1120] flex items-center justify-center mb-4"><GraduationCap className="w-6 h-6 text-[#0b1120]" /></div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-3">Class 12 Students (Any Stream)</h3>
                   <p className="text-gray-600 font-medium leading-relaxed">Students who want to secure admission into the IIT Madras BS Degree without JEE and build a strong academic foundation from Day 1.</p>
                 </div>
@@ -185,15 +424,13 @@ export default function CourseDetail() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#e0e7ff] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="text-4xl mb-4">📚</div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Drop-Year / Gap-Year Aspirants</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed">Students who want a structured preparation system to crack the IIT Madras Qualifier and enter India’s most innovative online degree program.</p>
+                  <div className="w-12 h-12 rounded-xl bg-[#e0e7ff] border-2 border-[#0b1120] flex items-center justify-center mb-4"><BookOpen className="w-6 h-6 text-[#0b1120]" /></div>                  <h3 className="text-xl font-black text-[#0b1120] mb-3">Drop-Year / Gap-Year Aspirants</h3>                  <p className="text-gray-600 font-medium leading-relaxed">Students who want a structured preparation system to crack the IIT Madras Qualifier and enter India’s most innovative online degree program.</p>
                 </div>
               </div>
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#d1fae5] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
-                <div className="relative bg-white border-[3px) border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="text-4xl mb-4">💼</div>
+                <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
+                  <div className="w-12 h-12 rounded-xl bg-[#d1fae5] border-2 border-[#0b1120] flex items-center justify-center mb-4"><Briefcase className="w-6 h-6 text-[#0b1120]" /></div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-3">Working Professionals</h3>
                   <p className="text-gray-600 font-medium leading-relaxed">Professionals who want to transition into Data Science, Analytics, Aerospace, or Management roles through the IIT Madras BS Degree — but need structured guidance to clear the Qualifier first.</p>
                 </div>
@@ -201,7 +438,7 @@ export default function CourseDetail() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#fee2e2] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-8 h-full flex flex-col transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                  <div className="text-4xl mb-4">🧠</div>
+                  <div className="w-12 h-12 rounded-xl bg-[#fee2e2] border-2 border-[#0b1120] flex items-center justify-center mb-4"><Brain className="w-6 h-6 text-[#0b1120]" /></div>
                   <h3 className="text-xl font-black text-[#0b1120] mb-3">Self-Learners & Repeat Attempters</h3>
                   <p className="text-gray-600 font-medium leading-relaxed">Students who attempted the Qualifier before or studied independently but need proper mentorship, accountability, and weekly testing to succeed.</p>
                 </div>
@@ -216,18 +453,18 @@ export default function CourseDetail() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: "📘", title: "Structured Foundation Mastery", desc: "Complete preparation for Mathematics 1, Statistics 1, Computational Thinking, and English 1, aligned exactly with the IIT Madras pattern.", color: "bg-blue-100" },
-                { icon: "📝", title: "Weekly Assignment Strategy", desc: "Learn how to score above cutoff, avoid common mistakes, manage time efficiently, and crack conceptual questions.", color: "bg-yellow-100" },
-                { icon: "🎥", title: "Live Problem-Solving Sessions", desc: "IIT-level explanations for mathematical reasoning, logical thinking, data interpretation, and programming logic.", color: "bg-purple-100" },
-                { icon: "📊", title: "Mock Qualifier Exams", desc: "Full-length simulated Qualifier exams with time-bound practice, performance analytics, and personalized feedback.", color: "bg-green-100" },
-                { icon: "🎯", title: "Cutoff-Oriented Prep Plan", desc: "We train you specifically to clear weekly assignment thresholds and qualify for the final exam with high scores.", color: "bg-orange-100" },
-                { icon: "👨‍🏫", title: "IIT-Focused Mentorship", desc: "Strategy sessions for Data Science, Mgmt, and Aero degrees, including degree selection and post-qualifier roadmaps.", color: "bg-teal-100" },
-                { icon: "👥", title: "Gen-Z IITian Community", desc: "Doubt-solving groups, peer accountability, and a motivated IITM aspirant network for constant updates and strategy.", color: "bg-red-100" }
+                { icon: <BookOpen className="w-6 h-6 text-[#0b1120]" />, title: "Structured Foundation Mastery", desc: "Complete preparation for Mathematics 1, Statistics 1, Computational Thinking, and English 1, aligned exactly with the IIT Madras pattern.", color: "bg-blue-100" },
+                { icon: <FileText className="w-6 h-6 text-[#0b1120]" />, title: "Weekly Assignment Strategy", desc: "Learn how to score above cutoff, avoid common mistakes, manage time efficiently, and crack conceptual questions.", color: "bg-yellow-100" },
+                { icon: <Video className="w-6 h-6 text-[#0b1120]" />, title: "Live Problem-Solving Sessions", desc: "IIT-level explanations for mathematical reasoning, logical thinking, data interpretation, and programming logic.", color: "bg-purple-100" },
+                { icon: <BarChart3 className="w-6 h-6 text-[#0b1120]" />, title: "Mock Qualifier Exams", desc: "Full-length simulated Qualifier exams with time-bound practice, performance analytics, and personalized feedback.", color: "bg-green-100" },
+                { icon: <Target className="w-6 h-6 text-[#0b1120]" />, title: "Cutoff-Oriented Prep Plan", desc: "We train you specifically to clear weekly assignment thresholds and qualify for the final exam with high scores.", color: "bg-orange-100" },
+                { icon: <Award className="w-6 h-6 text-[#0b1120]" />, title: "IIT-Focused Mentorship", desc: "Strategy sessions for Data Science, Mgmt, and Aero degrees, including degree selection and post-qualifier roadmaps.", color: "bg-teal-100" },
+                { icon: <Users className="w-6 h-6 text-[#0b1120]" />, title: "Gen-Z IITian Community", desc: "Doubt-solving groups, peer accountability, and a motivated IITM aspirant network for constant updates and strategy.", color: "bg-red-100" }
               ].map((item, i) => (
                 <div key={i} className="relative group">
                   <div className="absolute inset-0 bg-[#10b981] rounded-2xl translate-y-1.5 translate-x-1.5 border-2 border-[#0b1120]"></div>
                   <div className="relative bg-white border-[3px] border-[#0b1120] rounded-2xl p-6 h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
-                    <div className={`w-12 h-12 rounded-xl ${item.color} border-2 border-[#0b1120] flex items-center justify-center text-2xl mb-4`}>
+                    <div className={`w-12 h-12 rounded-xl ${item.color} border-2 border-[#0b1120] flex items-center justify-center mb-4`}>
                       {item.icon}
                     </div>
                     <h3 className="text-xl font-black text-[#0b1120] mb-2">{item.title}</h3>
@@ -243,19 +480,19 @@ export default function CourseDetail() {
             <div className="bg-[#0b1120] rounded-[2.5rem] p-10 lg:p-16 text-white border-[3px] border-[#0b1120] shadow-[12px_12px_0px_#10b981] relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-0"></div>
               <div className="relative z-10 text-center mb-12">
-                <h2 className="text-3xl lg:text-4xl font-black mb-4">📈 Career Outcomes</h2>
+                <h2 className="text-3xl lg:text-4xl font-black mb-4 flex items-center justify-center gap-2"><TrendingUp className="w-8 h-8 text-[#10b981]" /> Career Outcomes</h2>
                 <p className="text-gray-400 font-bold">Once you enter IIT Madras BS, you unlock:</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
                 {[
-                  { title: "🎓 IIT Madras Alumni Status", desc: "Gain the prestigious status of being an alum of India's #1 engineering institute." },
-                  { title: "💼 Industry Exposure", desc: "Access to internships, placements, and high-level networking within the tech industry." },
-                  { title: "📊 Strong Academic Base", desc: "A world-class foundation in Data Science, Management, or Aerospace Engineering." },
-                  { title: "🚀 Future Opportunities", desc: "Direct pathway to Masters programs, GATE, or top-tier technical and managerial roles." }
+                  { icon: <GraduationCap className="w-5 h-5 text-[#10b981]" />, title: "IIT Madras Alumni Status", desc: "Gain the prestigious status of being an alum of India's #1 engineering institute." },
+                  { icon: <Briefcase className="w-5 h-5 text-[#10b981]" />, title: "Industry Exposure", desc: "Access to internships, placements, and high-level networking within the tech industry." },
+                  { icon: <BarChart3 className="w-5 h-5 text-[#10b981]" />, title: "Strong Academic Base", desc: "A world-class foundation in Data Science, Management, or Aerospace Engineering." },
+                  { icon: <Rocket className="w-5 h-5 text-[#10b981]" />, title: "Future Opportunities", desc: "Direct pathway to Masters programs, GATE, or top-tier technical and managerial roles." }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-4">
                     <div className="mt-1 w-6 h-6 rounded-full bg-[#10b981] flex items-center justify-center shrink-0">
-                      <CheckCircle2 className="w-4 h-4 text-[#0b1120]" />
+                      {item.icon}
                     </div>
                     <div>
                       <h4 className="font-black text-lg mb-1">{item.title}</h4>
@@ -305,12 +542,7 @@ export default function CourseDetail() {
               Course Syllabus
             </h2>
             <div className="space-y-4">
-              {[
-                { title: "Mathematics 1", desc: "Foundation concepts & problem solving" },
-                { title: "Statistics 1", desc: "Data analysis & probability basics" },
-                { title: "Computational Thinking", desc: "Logic, algorithms & problem solving" },
-                { title: "English 1", desc: "Comprehension & communication" }
-              ].map((item, i) => (
+              {course.syllabusItems.map((item: any, i: number) => (
                 <div key={i} className="bg-white border-[3px] border-[#0b1120] rounded-2xl overflow-hidden shadow-[4px_4px_0px_#0b1120] transition-all hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120]">
                   <button
                     onClick={() => setActiveFaq(activeFaq === `syllabus-${i}` ? null : `syllabus-${i}` as any)}
@@ -348,75 +580,81 @@ export default function CourseDetail() {
                 <p className="text-gray-300 font-medium">Select the plan that fits your learning style</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto relative z-10">
-                {/* Basic Plan */}
-                <div className="bg-white text-[#0b1120] border-2 border-gray-200 rounded-3xl p-8 flex flex-col h-full hover:-translate-y-1 hover:shadow-lg transition-all">
-                  <div className="text-center mb-8">
-                    <h4 className="font-black text-gray-500 mb-4 uppercase tracking-wider text-sm">Basic</h4>
-                    <div className="font-black text-5xl">₹649</div>
+              <div className={`grid grid-cols-1 ${course.plans.length >= 3 ? 'md:grid-cols-3' : course.plans.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-6 max-w-5xl mx-auto relative z-10 w-full`}>
+                {course.plans.map((plan: any, i: number) => (
+                  <div key={i} className={`bg-white text-[#0b1120] border-2 ${plan.popular ? 'border-blue-500' : plan.best ? 'border-[#f59e0b]' : 'border-gray-200'} rounded-3xl p-8 flex flex-col h-full relative hover:-translate-y-1 hover:shadow-lg transition-all ${plan.popular && course.plans.length >= 3 ? 'md:-translate-y-4' : ''}`}>
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-blue-500 text-white text-sm font-black uppercase tracking-wider rounded-full whitespace-nowrap">
+                        {plan.subtitle || 'Popular'}
+                      </div>
+                    )}
+                    {plan.best && (
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#f59e0b] text-white text-xs font-black uppercase tracking-wider rounded-full text-center whitespace-nowrap shadow-md">
+                        <Trophy className="w-3.5 h-3.5 inline-block mr-1" /> BEST VALUE
+                      </div>
+                    )}
+                    <div className={`text-center mb-6 ${plan.popular || plan.best ? 'mt-4' : ''}`}>
+                      <h4 className={`font-black ${plan.popular ? 'text-blue-500' : plan.best ? 'text-[#f59e0b]' : 'text-gray-500'} mb-2 uppercase tracking-wider text-sm`}>
+                        {plan.name}
+                      </h4>
+                      {plan.priceLabel && <div className="text-xs text-gray-400 font-bold mb-1">{plan.priceLabel}</div>}
+                      <div className="font-black text-5xl">{plan.price}</div>
+                    </div>
+                    {plan.refund && (
+                      <div className="w-full py-2.5 bg-[#10b981] text-white text-xs font-black text-center rounded-lg mb-6 flex items-center justify-center gap-1 shadow-sm">
+                        <Shield className="w-3.5 h-3.5 inline-block" /> FULL REFUND IF NOT QUALIFIED
+                      </div>
+                    )}
+                    <ul className="space-y-3 mb-8 flex-grow">
+                      {plan.includesFrom && (
+                        <li className="flex items-center gap-3 text-sm font-medium text-gray-600">
+                          <CheckCircle2 className="w-5 h-5 text-[#10b981] shrink-0" /> Everything in {plan.includesFrom}
+                        </li>
+                      )}
+                      {(plan.features || []).map((f: string, j: number) => (
+                        <li key={j} className="flex items-center gap-3 text-sm font-medium text-gray-600">
+                          {plan.best ? (
+                            <Star className="w-5 h-5 text-[#f59e0b] fill-[#f59e0b] shrink-0" />
+                          ) : plan.includesFrom ? (
+                            <span className="text-blue-500 font-black text-lg w-5 text-center shrink-0">+</span>
+                          ) : (
+                            <CheckCircle2 className="w-5 h-5 text-[#10b981] shrink-0" />
+                          )}
+                          {f}
+                        </li>
+                      ))}
+                      {(plan.extras || []).map((f: string, j: number) => (
+                        <li key={`e-${j}`} className="flex items-center gap-3 text-sm font-medium text-gray-600">
+                          {plan.best ? (
+                            <Star className="w-5 h-5 text-[#f59e0b] fill-[#f59e0b] shrink-0" />
+                          ) : (
+                            <span className="text-blue-500 font-black text-lg w-5 text-center shrink-0">+</span>
+                          )}
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <a href={plan.link} target="_blank" rel="noopener noreferrer" className={`w-full py-3.5 ${plan.best ? 'bg-[#f59e0b] hover:bg-[#d97706]' : plan.popular ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-100 hover:bg-gray-200'} ${plan.best || plan.popular ? 'text-white' : 'text-[#0b1120]'} rounded-xl font-bold text-lg transition-all text-center`}>
+                      Proceed to Payment
+                    </a>
                   </div>
-                  <ul className="space-y-4 mb-8 flex-grow">
-                    {["Recorded Lectures", "Handwritten Notes", "PYQs (Recorded)", "Graded Assignments"].map((f, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                        <CheckCircle2 className="w-5 h-5 text-[#10b981] shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-gray-100 text-[#0b1120] rounded-xl font-bold text-lg hover:bg-gray-200 transition-all text-center">
-                    Proceed to Payment
-                  </a>
-                </div>
-
-                {/* Advanced Plan */}
-                <div className="bg-white text-[#0b1120] border-2 border-blue-500 rounded-3xl p-8 flex flex-col h-full relative hover:-translate-y-1 hover:shadow-lg transition-all mt-4 md:mt-0 md:-translate-y-4">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-blue-500 text-white text-sm font-black uppercase tracking-wider rounded-full">
-                    Popular
-                  </div>
-                  <div className="text-center mb-8 mt-2">
-                    <h4 className="font-black text-blue-500 mb-4 uppercase tracking-wider text-sm">Advanced</h4>
-                    <div className="font-black text-5xl">₹799</div>
-                  </div>
-                  <ul className="space-y-4 mb-8 flex-grow">
-                    <li className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                      <CheckCircle2 className="w-5 h-5 text-[#10b981] shrink-0" /> Everything in Basic
-                    </li>
-                    {["Live Lectures", "Live PYQs Session", "Live Revision Session", "Career Workshops"].map((f, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                        <span className="text-blue-500 font-black text-lg w-5 text-center shrink-0">+</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-blue-500 text-white rounded-xl font-bold text-lg hover:bg-blue-600 transition-all text-center">
-                    Proceed to Payment
-                  </a>
-                </div>
-
-                {/* Champion Plan */}
-                <div className="bg-[#fffdf0] text-[#0b1120] border-2 border-[#f59e0b] rounded-3xl p-8 flex flex-col h-full relative hover:-translate-y-1 hover:shadow-lg transition-all">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#f59e0b] text-white text-xs font-black uppercase tracking-wider rounded-full text-center whitespace-nowrap shadow-md">
-                    🏆 BEST VALUE<br />CHAMPION
-                  </div>
-                  <div className="text-center mb-6 mt-4">
-                    <div className="font-black text-5xl">₹999</div>
-                  </div>
-                  <div className="w-full py-2.5 bg-[#10b981] text-white text-xs font-black text-center rounded-lg mb-8 flex items-center justify-center gap-1 shadow-sm">
-                    🛡️ FULL REFUND IF NOT QUALIFIED
-                  </div>
-                  <ul className="space-y-4 mb-8 flex-grow">
-                    <li className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                      <CheckCircle2 className="w-5 h-5 text-[#10b981] shrink-0" /> Everything in Advanced
-                    </li>
-                    {["1:1 Mentorship", "Lifetime Reattempt", "Career Guidance"].map((f, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm font-medium text-gray-600">
-                        <Star className="w-5 h-5 text-[#f59e0b] fill-[#f59e0b] shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view" target="_blank" rel="noopener noreferrer" className="w-full py-3.5 bg-[#f59e0b] text-white rounded-xl font-bold text-lg hover:bg-[#d97706] transition-all text-center">
-                    Proceed to Payment
-                  </a>
-                </div>
+                ))}
               </div>
+
+              {/* Individual Subject Pricing */}
+              {course.individualPricing && (
+                <div className="relative z-10 w-full max-w-5xl mx-auto mt-4">
+                  <h3 className="text-xl font-black text-white mb-4 text-center">Or Choose Individual Subjects</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {course.individualPricing.map((item: any, i: number) => (
+                      <a key={i} href={course.paymentLink} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 flex flex-col items-center text-center hover:bg-white/20 transition-all">
+                        <div className="font-bold text-white text-sm mb-1">{item.subject}</div>
+                        <div className="font-black text-xl text-[#10b981]">{item.price}</div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 
@@ -428,14 +666,14 @@ export default function CourseDetail() {
             <div className="relative">
               <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory animate-scroll scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {[
-                  { icon: "🎥", title: "Live Interactive Classes", desc: "A place to explore, create and thrive", color: "bg-blue-50" },
-                  { icon: "📚", title: "Premium Study Materials", desc: "Where learning meets inspiration", color: "bg-purple-50" },
-                  { icon: "💬", title: "24/7 Doubt Support", desc: "Success is a journey, not a destination", color: "bg-green-50" },
-                  { icon: "📝", title: "Regular Mock Tests", desc: "Practice makes perfect", color: "bg-yellow-50" },
-                  { icon: "🎯", title: "Goal Tracking", desc: "Stay on top of your progress", color: "bg-red-50" }
+                  { icon: <Video className="w-8 h-8 text-[#0b1120]" />, title: "Live Interactive Classes", desc: "A place to explore, create and thrive", color: "bg-blue-50" },
+                  { icon: <BookOpen className="w-8 h-8 text-[#0b1120]" />, title: "Premium Study Materials", desc: "Where learning meets inspiration", color: "bg-purple-50" },
+                  { icon: <MessageCircle className="w-8 h-8 text-[#0b1120]" />, title: "24/7 Doubt Support", desc: "Success is a journey, not a destination", color: "bg-green-50" },
+                  { icon: <FileText className="w-8 h-8 text-[#0b1120]" />, title: "Regular Mock Tests", desc: "Practice makes perfect", color: "bg-yellow-50" },
+                  { icon: <Target className="w-8 h-8 text-[#0b1120]" />, title: "Goal Tracking", desc: "Stay on top of your progress", color: "bg-red-50" }
                 ].map((item, i) => (
                   <div key={i} className="min-w-[280px] md:min-w-[320px] snap-center bg-white p-8 rounded-3xl border-[3px] border-[#0b1120] text-center shrink-0 shadow-[6px_6px_0px_#0b1120] hover:-translate-y-1 transition-all">
-                    <div className={`w-20 h-20 mx-auto ${item.color} rounded-2xl border-2 border-[#0b1120] flex items-center justify-center text-4xl mb-6 shadow-[4px_4px_0px_#0b1120]`}>
+                    <div className={`w-20 h-20 mx-auto ${item.color} rounded-2xl border-2 border-[#0b1120] flex items-center justify-center mb-6 shadow-[4px_4px_0px_#0b1120]`}>
                       {item.icon}
                     </div>
                     <h4 className="font-black text-xl text-[#0b1120] mb-4">{item.title}</h4>
@@ -454,7 +692,7 @@ export default function CourseDetail() {
             <div className="flex items-center gap-4 mb-8">
               <div className="text-5xl font-black text-[#0b1120]">4.9</div>
               <div>
-                <div className="flex text-yellow-400 text-xl mb-1">★★★★★</div>
+                <div className="flex text-yellow-400 text-xl mb-1 gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}</div>
                 <div className="text-sm text-gray-500 font-bold">(124 reviews)</div>
               </div>
             </div>
@@ -488,7 +726,7 @@ export default function CourseDetail() {
                         <div className="text-sm font-bold text-gray-500">{review.role}</div>
                       </div>
                     </div>
-                    <div className="text-yellow-400 text-lg tracking-tighter">★★★★★</div>
+                    <div className="flex text-yellow-400 gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}</div>
                   </div>
                 </div>
               ))}
@@ -516,7 +754,7 @@ export default function CourseDetail() {
           {/* FAQs */}
           <section>
             <h2 className="text-3xl font-black text-[#0b1120] mb-8 flex items-center gap-3">
-              <span className="text-4xl">❓</span> Frequently Asked Questions
+              <HelpCircle className="w-9 h-9 text-[#10b981]" /> Frequently Asked Questions
             </h2>
             <div className="space-y-4">
               {faqs.map((faq, i) => (
@@ -549,7 +787,7 @@ export default function CourseDetail() {
               <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-3 translate-x-3 border-2 border-[#0b1120]"></div>
               <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl overflow-hidden flex flex-col">
                 <div className="aspect-video bg-gray-200 relative group cursor-pointer">
-                  <img src="https://picsum.photos/seed/qualifier-hero/800/450" alt="Course Preview" className="w-full h-full object-cover" />
+                  <img src={courseImage} alt="Course Preview" className="w-full h-full object-contain" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center transition-colors group-hover:bg-black/40">
                     <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transform transition-transform group-hover:scale-110">
                       <Play className="w-6 h-6 text-[#0b1120] ml-1" fill="currentColor" />
@@ -559,11 +797,11 @@ export default function CourseDetail() {
                 <div className="p-6 bg-white">
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-end gap-3">
-                      <div className="text-4xl font-black text-[#0b1120]">₹649</div>
-                      <div className="text-xl text-gray-400 font-bold line-through mb-1">₹999</div>
+                      <div className="text-4xl font-black text-[#0b1120]">{course.sidebarPrice}</div>
+                      <div className="text-xl text-gray-400 font-bold line-through mb-1">{course.sidebarOriginal}</div>
                     </div>
                     <div className="px-4 py-1.5 bg-[#fef08a] text-[#0b1120] border-2 border-[#0b1120] rounded-full text-sm font-black">
-                      35% off
+                      {course.sidebarDiscount}
                     </div>
                   </div>
 
@@ -577,21 +815,21 @@ export default function CourseDetail() {
                       className="w-full appearance-none bg-white border-2 border-[#0b1120] rounded-xl px-4 py-3 text-base font-bold text-[#0b1120] focus:outline-none focus:ring-2 focus:ring-[#10b981]"
                     >
                       <option value="select">Select Plan</option>
-                      <option value="basic">Basic - ₹649</option>
-                      <option value="advanced">Advanced - ₹799</option>
-                      <option value="champion">Champion - ₹999</option>
+                      {course.sidebarPlans.map((p: any, i: number) => (
+                        <option key={i} value={p.value}>{p.label}</option>
+                      ))}
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
                       <ChevronDown className="w-5 h-5 text-[#0b1120]" />
                     </div>
                   </div>
 
-                  {id === 'qualifier' ? (
+                  {course.useRazorpayButton ? (
                     <div className="w-full bg-[#0b1120] rounded-xl p-2 border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
-                      <RazorpayButton buttonId="pl_SAz4NLS9RwPWyM" />
+                      <RazorpayButton buttonId={course.razorpayButtonId} />
                     </div>
                   ) : (
-                    <button onClick={() => window.open('https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view', '_blank')} className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-black text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
+                    <button onClick={() => window.open(course.paymentLink, '_blank')} className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-black text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
                       Proceed to Payment
                     </button>
                   )}
@@ -603,27 +841,42 @@ export default function CourseDetail() {
             <div className="bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 shadow-[8px_8px_0px_#0b1120]">
               <h3 className="text-xl font-black text-[#0b1120] mb-4">Related Courses</h3>
               <div className="space-y-3">
-                <a href="https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
-                  <div className="flex items-center gap-3">
-                    <div className="text-2xl">🏗️</div>
-                    <div className="font-bold text-[#0b1120]">Foundation T1</div>
-                  </div>
-                  <div className="text-sm font-bold text-gray-500">from ₹249</div>
-                </a>
-                <a href="https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
-                  <div className="flex items-center gap-3">
-                    <div className="text-2xl">🚀</div>
-                    <div className="font-bold text-[#0b1120]">Foundation T2</div>
-                  </div>
-                  <div className="text-sm font-bold text-gray-500">from ₹249</div>
-                </a>
-                <a href="https://pages.razorpay.com/pl_S7JFgVsj0mereC/view" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
-                  <div className="flex items-center gap-3">
-                    <div className="text-2xl">🎓</div>
-                    <div className="font-bold text-[#0b1120]">Diploma</div>
-                  </div>
-                  <div className="text-sm font-bold text-gray-500">from ₹49</div>
-                </a>
+                {id !== 'foundation-1' && (
+                  <a href="/courses/foundation-1" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl"><Building2 className="w-6 h-6 text-[#0b1120]" /></div>
+                      <div className="font-bold text-[#0b1120]">Foundation T1</div>
+                    </div>
+                    <div className="text-sm font-bold text-gray-500">from ₹249</div>
+                  </a>
+                )}
+                {id !== 'foundation-2' && (
+                  <a href="/courses/foundation-2" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl"><Rocket className="w-6 h-6 text-[#0b1120]" /></div>
+                      <div className="font-bold text-[#0b1120]">Foundation T2</div>
+                    </div>
+                    <div className="text-sm font-bold text-gray-500">from ₹249</div>
+                  </a>
+                )}
+                {id !== 'diploma' && (
+                  <a href="/courses/diploma" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl"><Target className="w-6 h-6 text-[#0b1120]" /></div>
+                      <div className="font-bold text-[#0b1120]">Diploma</div>
+                    </div>
+                    <div className="text-sm font-bold text-gray-500">from ₹49</div>
+                  </a>
+                )}
+                {id !== 'qualifier' && (
+                  <a href="/courses/qualifier" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl"><GraduationCap className="w-6 h-6 text-[#0b1120]" /></div>
+                      <div className="font-bold text-[#0b1120]">Qualifier</div>
+                    </div>
+                    <div className="text-sm font-bold text-gray-500">from ₹649</div>
+                  </a>
+                )}
               </div>
             </div>
 
@@ -636,13 +889,13 @@ export default function CourseDetail() {
         <div>
           <div className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-0.5">Starting from</div>
           <div className="flex items-end gap-2">
-            <span className="text-2xl font-black text-[#0b1120]">₹649</span>
-            <span className="text-sm font-bold text-gray-400 line-through mb-1">₹999</span>
+            <span className="text-2xl font-black text-[#0b1120]">{course.mobilePrice}</span>
+            <span className="text-sm font-bold text-gray-400 line-through mb-1">{course.mobileOriginal}</span>
           </div>
         </div>
-        <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} className="px-4 py-3 bg-[#10b981] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] flex items-center gap-2 hover:bg-[#059669] hover:text-white transition-colors text-sm sm:text-base">
-          <span className="hidden sm:inline">🎯</span> Enroll Now
-        </button>
+        <a href={course.paymentLink} target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-[#10b981] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] flex items-center gap-2 hover:bg-[#059669] hover:text-white transition-colors text-sm sm:text-base">
+          <span className="hidden sm:inline"><Target className="w-4 h-4" /></span> Enroll Now
+        </a>
       </div>
 
     </div>
