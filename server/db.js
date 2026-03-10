@@ -162,6 +162,25 @@ const init = async () => {
       console.log(`✅ Seeded ${resources.length} resources from seed-resources.json`);
     }
   }
+
+  // Remove placeholder BDM Sep 2024 entry
+  await db.runAsync("DELETE FROM resources WHERE title = 'BDM Quiz 1 PYQ - Sep 2024' AND url = '#'");
+
+  // Ensure BDM PYQs exist
+  const bdmPyqs = [
+    { level: "Diploma", subject: "BDM", resource_type: "pyq", sub_type: "Quiz 1", title: "BDM Quiz 1 PYQ - Set 1", description: "Previous year questions", url: "https://drive.google.com/file/d/1XxH8OTW_IXoz-3tp3q0Ds7m0CvYfUYgn/view" },
+    { level: "Diploma", subject: "BDM", resource_type: "pyq", sub_type: "Quiz 1", title: "BDM Quiz 1 PYQ - Set 2", description: "Previous year questions", url: "https://drive.google.com/file/d/15ROKkruHq1BZwPBe9hdfe_pDrOThgZ_s/view" },
+  ];
+  for (const r of bdmPyqs) {
+    const exists = await db.getAsync('SELECT id FROM resources WHERE url = ?', [r.url]);
+    if (!exists) {
+      await db.runAsync(
+        `INSERT INTO resources (level, subject, resource_type, sub_type, title, description, url, published) VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+        [r.level, r.subject, r.resource_type, r.sub_type, r.title, r.description, r.url]
+      );
+      console.log(`✅ Inserted BDM PYQ: ${r.title}`);
+    }
+  }
 };
 
 init().catch(console.error);
