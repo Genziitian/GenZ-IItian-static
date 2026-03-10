@@ -108,7 +108,7 @@ export default function Contact() {
               </div>
               <h3 className="text-2xl font-black text-[#0b1120] mb-2">Email Us</h3>
               <p className="text-gray-600 font-bold mb-4">Our friendly team is here to help.</p>
-              <a href="mailto:support@genziitian.com" className="text-[#10b981] font-black text-lg hover:underline">support@genziitian.com</a>
+              <a href="mailto:help@genziitian.in" className="text-[#10b981] font-black text-lg hover:underline">help@genziitian.in</a>
             </div>
 
             <a href="https://chat.whatsapp.com/Gi4D9yAd99p7q1XeVh0J1e" target="_blank" rel="noopener noreferrer" className="bg-white border-[3px] border-[#0b1120] rounded-3xl p-8 shadow-[8px_8px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[12px_12px_0px_#0b1120] transition-all group">

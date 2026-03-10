@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import db from './db.js';
+import pseoRouter from './pseo-routes.js';
 import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -244,6 +245,9 @@ app.post('/api/admin/settings', authMiddleware, async (req, res) => {
         res.json({ message: 'Settings updated' });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
+
+// ========== pSEO ENGINE ==========
+app.use('/api/pseo', pseoRouter);
 
 // --- CATCH-ALL FOR FRONTEND ---
 app.get('*', (req, res) => {

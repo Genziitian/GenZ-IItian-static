@@ -1,8 +1,21 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Package, PenLine, BookOpen } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="border-b border-gray-200 bg-white sticky top-0 z-50">
@@ -14,8 +27,28 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700">
           <Link to="/" className="hover:text-black transition-colors">Home</Link>
           <Link to="/courses" className="hover:text-black transition-colors">Courses</Link>
-          <Link to="/resources" className="hover:text-black transition-colors">Resources</Link>
-          <Link to="/blog" className="hover:text-black transition-colors">Blog</Link>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setResourcesOpen(!resourcesOpen)}
+              className="flex items-center gap-1 hover:text-black transition-colors"
+            >
+              Resources
+              <svg className={`w-3.5 h-3.5 transition-transform ${resourcesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </button>
+            {resourcesOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52 bg-white border-[3px] border-[#0b1120] rounded-xl shadow-[4px_4px_0px_#0b1120] py-2 z-50">
+                <Link to="/resources" onClick={() => setResourcesOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#0b1120] transition-colors">
+                  <Package className="w-[18px] h-[18px] text-gray-500" /> Resources
+                </Link>
+                <Link to="/blog" onClick={() => setResourcesOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#0b1120] transition-colors">
+                  <PenLine className="w-[18px] h-[18px] text-gray-500" /> Blog
+                </Link>
+                <Link to="/docs" onClick={() => setResourcesOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#0b1120] transition-colors">
+                  <BookOpen className="w-[18px] h-[18px] text-gray-500" /> Documentation
+                </Link>
+              </div>
+            )}
+          </div>
           <Link to="/about" className="hover:text-black transition-colors">About Us</Link>
           <Link to="/contact" className="hover:text-black transition-colors">Contact</Link>
         </div>
@@ -49,6 +82,7 @@ export default function Navbar() {
           <Link to="/courses" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">Courses</Link>
           <Link to="/resources" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">Resources</Link>
           <Link to="/blog" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">Blog</Link>
+          <Link to="/docs" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">Documentation</Link>
           <Link to="/about" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">About Us</Link>
           <Link to="/contact" onClick={() => setMobileOpen(false)} className="py-2 hover:text-black">Contact</Link>
           <a href="https://youtube.com/@Gen-ZIITian/" target="_blank" rel="noopener noreferrer" className="py-2 text-red-500 font-bold flex items-center gap-2">

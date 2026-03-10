@@ -1,5 +1,16 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { GraduationCap, BookOpen, Code, Coffee, Zap, Compass, BookText } from 'lucide-react';
+import { docsData } from '../data/docsData';
+
+const iconMap: Record<string, React.ReactNode> = {
+  'graduation-cap': <GraduationCap className="w-7 h-7 text-[#0b1120]" />,
+  'book-text': <BookText className="w-7 h-7 text-[#0b1120]" />,
+  'code': <Code className="w-7 h-7 text-[#0b1120]" />,
+  'coffee': <Coffee className="w-7 h-7 text-[#0b1120]" />,
+  'zap': <Zap className="w-7 h-7 text-[#0b1120]" />,
+  'compass': <Compass className="w-7 h-7 text-[#0b1120]" />,
+};
 
 interface BlogPost {
   id: number;
@@ -79,6 +90,9 @@ function BlogCard({ post }: { post: BlogPost }) {
 export default function Blog() {
   const [blogs, setBlogs] = useState<BlogPost[]>(fallbackBlogs);
   const [widgets, setWidgets] = useState<Widget[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [sortBy, setSortBy] = useState('Newest First');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('/api/blogs')
@@ -91,6 +105,21 @@ export default function Blog() {
       .then(data => { if (Array.isArray(data)) setWidgets(data); })
       .catch(() => { });
   }, []);
+
+  const categories = ['All Categories', ...Array.from(new Set(blogs.map(b => b.category)))];
+
+  const filteredBlogs = blogs
+    .filter(post => selectedCategory === 'All Categories' || post.category === selectedCategory)
+    .filter(post => {
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return post.title.toLowerCase().includes(q) || post.category.toLowerCase().includes(q);
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortBy === 'Newest First' ? dateB - dateA : dateA - dateB;
+    });
 
   // Split widgets: first widget goes before blogs (on mobile), rest go after
   const widget1 = widgets[0] || null;
@@ -107,6 +136,74 @@ export default function Blog() {
           </p>
         </div>
 
+        {/* Docs Slider */}
+        <div className="mb-14">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-black text-[#0b1120] flex items-center gap-3">
+              <BookOpen className="w-7 h-7" /> Documentation
+            </h2>
+            <Link to="/docs" className="text-sm font-bold text-[#10b981] hover:underline">View all docs →</Link>
+          </div>
+          <div className="relative">
+            <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-thin snap-x snap-mandatory" style={{ scrollbarWidth: 'thin' }}>
+              {docsData.map(doc => (
+                <Link
+                  key={doc.slug}
+                  to={`/docs/${doc.slug}`}
+                  className="snap-start shrink-0 w-72 rounded-2xl border-[3px] border-[#0b1120] p-5 bg-white shadow-[4px_4px_0px_#0b1120] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#0b1120] transition-all group"
+                >
+                  <div className="mb-3">{iconMap[doc.icon] || <BookOpen className="w-7 h-7 text-[#0b1120]" />}</div>
+                  <h3 className="text-base font-black text-[#0b1120] mb-1.5 group-hover:text-[#10b981] transition-colors">{doc.title}</h3>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed mb-3 line-clamp-2">{doc.description}</p>
+                  <span className="text-xs font-bold text-[#10b981]">{doc.sections.reduce((s, sec) => s + sec.items.length, 0)} articles</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Filter / Sort / Search Bar */}
+        <div className="mb-12 rounded-2xl border-[3px] border-[#0b1120] bg-gray-50 p-6 shadow-[4px_4px_0px_#0b1120]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-gray-500 mb-2">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={e => setSelectedCategory(e.target.value)}
+                className="w-full appearance-none rounded-xl border-[2px] border-[#0b1120] bg-white px-4 py-3 pr-10 font-bold text-[#0b1120] text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981] cursor-pointer"
+              >
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-gray-500 mb-2">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                className="w-full appearance-none rounded-xl border-[2px] border-[#0b1120] bg-white px-4 py-3 pr-10 font-bold text-[#0b1120] text-sm focus:outline-none focus:ring-2 focus:ring-[#10b981] cursor-pointer"
+              >
+                <option value="Newest First">Newest First</option>
+                <option value="Oldest First">Oldest First</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-black uppercase tracking-wider text-gray-500 mb-2">Search Articles</label>
+              <div className="relative">
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search titles, tags..."
+                  className="w-full rounded-xl border-[2px] border-[#0b1120] bg-white pl-11 pr-4 py-3 font-bold text-[#0b1120] text-sm placeholder:text-gray-400 placeholder:font-medium focus:outline-none focus:ring-2 focus:ring-[#10b981]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Desktop: Blog grid + sticky sidebar | Mobile: widgets interspersed */}
         <div className="flex gap-8 items-start">
 
@@ -119,11 +216,18 @@ export default function Blog() {
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {blogs.map((post) => (
-                <BlogCard key={post.id} post={post} />
-              ))}
-            </div>
+            {filteredBlogs.length === 0 ? (
+              <div className="text-center py-16">
+                <p className="text-gray-400 font-bold text-lg">No articles found.</p>
+                <p className="text-gray-400 text-sm mt-1">Try adjusting your filters or search query.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {filteredBlogs.map((post) => (
+                  <BlogCard key={post.id} post={post} />
+                ))}
+              </div>
+            )}
 
             {/* Mobile only: Widgets 2 & 3 after blogs */}
             {(widget2 || widget3) && (

@@ -12,6 +12,10 @@ import ResourceDetail from './pages/ResourceDetail';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Newsletter from './pages/Newsletter';
+import SEODirectory from './pages/SEODirectory';
+import SEOPage from './pages/SEOPage';
+import Docs from './pages/Docs';
+import DocsDetail from './pages/DocsDetail';
 
 export default function App() {
   useEffect(() => {
@@ -46,9 +50,14 @@ export default function App() {
             <Route path="/resources/:level/:subject" element={<ResourceDetail />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/docs/:slug" element={<DocsDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/knowledge" element={<SEODirectory />} />
+            {/* pSEO catch-all — must be last */}
+            <Route path="/*" element={<SEOPage />} />
           </Routes>
         </main>
         <Footer />

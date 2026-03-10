@@ -5,14 +5,12 @@ import { Link } from 'react-router-dom';
 const levels = ["Qualifier", "Foundation", "Diploma"] as const;
 
 const levelSubjects: Record<string, string[]> = {
-  Qualifier: [], // Redirects to Medium
+  Qualifier: ["Maths 1", "Stats 1", "CT", "English 1"],
   Foundation: ["Maths 1", "Stats 1", "Maths 2", "Stats 2", "English 1", "English 2", "Python", "CT"],
   Diploma: ["MLF", "BDM", "MLT", "MLP", "TDS", "DBMS", "Java", "PDSA", "MAD 1", "MAD 2", "BA", "Deep Learning & Gen AI", "System Commands"],
 };
 
 const allSubjects = [...new Set(Object.values(levelSubjects).flat())].filter(Boolean);
-
-const examTypes = ["Quiz 1", "Quiz 2", "End Term", "OPPE 1", "OPPE 2"];
 
 type TabKey = 'notes' | 'pyqs' | 'tools' | 'dates' | 'updates';
 
@@ -27,8 +25,6 @@ interface PYQResource {
   url: string;
 }
 
-const QUALIFIER_URL = "https://medium.com/@genziitian/qualifier-resources-10dbf8c4a5a9";
-
 export default function Resources() {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<TabKey>('notes');
@@ -42,6 +38,7 @@ export default function Resources() {
   const [pyqExam, setPyqExam] = useState<string | null>(null);
   const [pyqResources, setPyqResources] = useState<PYQResource[]>([]);
   const [pyqLoading, setPyqLoading] = useState(false);
+  const [availableExamTypes, setAvailableExamTypes] = useState<string[]>([]);
 
   // Gate popup state
   const [showGate, setShowGate] = useState(false);
@@ -76,12 +73,41 @@ export default function Resources() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Fetch PYQ resources when filters change
+  // Fetch PYQ resources when level+subject change, derive exam types
   useEffect(() => {
-    if (activeTab !== 'pyqs' || !pyqSubject || !pyqExam) {
+    if (activeTab !== 'pyqs' || !pyqSubject) {
       setPyqResources([]);
+      setAvailableExamTypes([]);
       return;
     }
+    setPyqLoading(true);
+    fetch(`/api/resources?level=${encodeURIComponent(pyqLevel)}&subject=${encodeURIComponent(pyqSubject)}&type=pyq`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          // Derive available exam types from data
+          const types = [...new Set(data.map((r: PYQResource) => r.sub_type).filter(Boolean))];
+          // Sort in preferred order
+          const order = ["Qualifier Exam", "Quiz 1", "Quiz 2", "End Term", "OPPE 1", "OPPE 2"];
+          types.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+          setAvailableExamTypes(types);
+          // If current exam selection is valid, filter; otherwise show all
+          if (pyqExam && types.includes(pyqExam)) {
+            setPyqResources(data.filter((r: PYQResource) => r.sub_type === pyqExam));
+          } else {
+            setPyqResources(data);
+            setPyqExam(null);
+          }
+        }
+        setPyqLoading(false);
+      })
+      .catch(() => { setPyqResources([]); setAvailableExamTypes([]); setPyqLoading(false); });
+  }, [activeTab, pyqLevel, pyqSubject]);
+
+  // Filter by exam type when it changes
+  useEffect(() => {
+    if (activeTab !== 'pyqs' || !pyqSubject) return;
+    if (!pyqExam) return;
     setPyqLoading(true);
     fetch(`/api/resources?level=${encodeURIComponent(pyqLevel)}&subject=${encodeURIComponent(pyqSubject)}&type=pyq`)
       .then(r => r.json())
@@ -92,18 +118,13 @@ export default function Resources() {
         setPyqLoading(false);
       })
       .catch(() => { setPyqResources([]); setPyqLoading(false); });
-  }, [activeTab, pyqLevel, pyqSubject, pyqExam]);
+  }, [pyqExam]);
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
   };
 
   const handleLevelSelect = (level: string) => {
-    if (level === "Qualifier") {
-      window.open("https://medium.com/@genziitian/qualifier-resources-10dbf8c4a5a9", '_blank');
-      setOpenDropdown(null);
-      return;
-    }
     setSelectedLevel(level);
     setSelectedSubject(null);
     setOpenDropdown(null);
@@ -117,7 +138,7 @@ export default function Resources() {
   const clearFilters = () => { setSelectedLevel(null); setSelectedSubject(null); };
 
   const availableSubjects = selectedLevel ? levelSubjects[selectedLevel] : allSubjects;
-  const filteredLevels = selectedLevel ? (["Foundation", "Diploma"] as const).filter((l) => l === selectedLevel) : (["Foundation", "Diploma"] as const);
+  const filteredLevels = selectedLevel ? (["Qualifier", "Foundation", "Diploma"] as const).filter((l) => l === selectedLevel) : (["Qualifier", "Foundation", "Diploma"] as const);
 
   const pyqSubjects = levelSubjects[pyqLevel] || [];
 
@@ -274,31 +295,6 @@ export default function Resources() {
       {activeTab === 'notes' && (
         <div className="max-w-7xl mx-auto px-6 py-8">
 
-          {/* Qualifier Banner */}
-          <a
-            href={QUALIFIER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block mb-10 group"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-[#f59e0b] rounded-2xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
-              <div className="relative bg-gradient-to-r from-[#0b1120] to-[#1e293b] border-[3px] border-[#0b1120] rounded-2xl p-6 lg:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 group-hover:-translate-y-1 group-hover:-translate-x-1 transition-all overflow-hidden">
-                <div className="absolute right-0 top-0 w-40 h-40 bg-[#f59e0b]/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-[#f59e0b] border-2 border-[#0b1120] flex items-center justify-center text-3xl shadow-[3px_3px_0px_#0b1120] shrink-0">🎯</div>
-                  <div>
-                    <h3 className="text-xl lg:text-2xl font-black text-white">Qualifier Resources</h3>
-                    <p className="text-gray-400 font-bold text-sm">Complete Week 1-4 prep materials, notes & PYQs</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 px-6 py-3 bg-[#f59e0b] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] shadow-[3px_3px_0px_#0b1120] shrink-0 relative z-10">
-                  View Resources <ChevronRight className="w-5 h-5" />
-                </div>
-              </div>
-            </div>
-          </a>
-
           {/* Filters */}
           <div className="flex flex-wrap items-center gap-4 mb-8" ref={dropdownRef}>
             <div className="relative">
@@ -308,8 +304,8 @@ export default function Resources() {
               {openDropdown === 'level' && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white border-[3px] border-[#0b1120] rounded-xl shadow-[4px_4px_0px_#0b1120] z-50 overflow-hidden">
                   {levels.map((item, i) => (
-                    <button key={i} onClick={() => handleLevelSelect(item)} className={`w-full text-left px-4 py-3 text-sm font-bold transition-colors ${item === "Qualifier" ? 'text-[#f59e0b] hover:bg-amber-50' : selectedLevel === item ? 'bg-[#10b981] text-white' : 'text-[#0b1120] hover:bg-gray-100'}`}>
-                      {item} {item === "Qualifier" && <span className="text-xs text-gray-400 ml-1">↗</span>}
+                    <button key={i} onClick={() => handleLevelSelect(item)} className={`w-full text-left px-4 py-3 text-sm font-bold transition-colors ${selectedLevel === item ? 'bg-[#10b981] text-white' : 'text-[#0b1120] hover:bg-gray-100'}`}>
+                      {item}
                     </button>
                   ))}
                 </div>
@@ -373,7 +369,7 @@ export default function Resources() {
           <div className="mb-8">
             <h3 className="text-sm font-black text-gray-400 uppercase tracking-wider mb-3">Step 1 — Select Level</h3>
             <div className="flex flex-wrap gap-3">
-              {(["Foundation", "Diploma"] as const).map((lv) => (
+              {(["Qualifier", "Foundation", "Diploma"] as const).map((lv) => (
                 <button
                   key={lv}
                   onClick={() => { setPyqLevel(lv); setPyqSubject(null); setPyqExam(null); }}
@@ -401,17 +397,18 @@ export default function Resources() {
             </div>
           </div>
 
-          {/* Step 3: Exam Type Selection */}
-          {pyqSubject && (
+          {/* Step 3: Exam Type Selection (only show when multiple types) */}
+          {pyqSubject && availableExamTypes.length > 1 && (
             <div className="mb-10">
               <h3 className="text-sm font-black text-gray-400 uppercase tracking-wider mb-3">Step 3 — Select Exam Type</h3>
               <div className="flex flex-wrap gap-3">
-                {examTypes.filter(ex => {
-                  if (!ex.startsWith('OPPE')) return true;
-                  if (pyqLevel === 'Foundation' && pyqSubject === 'Python') return true;
-                  if (pyqLevel === 'Diploma' && (pyqSubject === 'Java' || pyqSubject === 'DBMS')) return true;
-                  return false;
-                }).map((ex) => (
+                <button
+                  onClick={() => setPyqExam(null)}
+                  className={`px-5 py-2.5 border-[3px] border-[#0b1120] rounded-xl text-sm font-bold transition-all hover:-translate-y-0.5 ${pyqExam === null ? 'bg-[#10b981] text-white shadow-[4px_4px_0px_#0b1120]' : 'bg-white text-[#0b1120] shadow-[3px_3px_0px_#0b1120]'}`}
+                >
+                  All
+                </button>
+                {availableExamTypes.map((ex) => (
                   <button
                     key={ex}
                     onClick={() => setPyqExam(ex)}
@@ -425,12 +422,12 @@ export default function Resources() {
           )}
 
           {/* Results */}
-          {pyqSubject && pyqExam && (
+          {pyqSubject && (
             <div className="pb-24">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1.5 h-8 rounded-full bg-[#f59e0b]" />
                 <h2 className="text-2xl font-black text-[#0b1120]">
-                  {pyqSubject} — {pyqExam}
+                  {pyqSubject} {pyqExam ? `— ${pyqExam}` : '— All PYQs'}
                 </h2>
                 <span className="px-3 py-1 bg-amber-50 text-amber-600 text-xs font-bold rounded-full border border-amber-200">
                   {pyqLevel}
@@ -447,7 +444,7 @@ export default function Resources() {
                   <div className="text-4xl mb-3">📭</div>
                   <h3 className="text-lg font-black text-[#0b1120] mb-2">No PYQs Found</h3>
                   <p className="text-gray-500 font-medium text-sm">
-                    No previous year questions available for {pyqSubject} — {pyqExam} ({pyqLevel}) yet. Check back later!
+                    No previous year questions available for {pyqSubject} {pyqExam ? `— ${pyqExam}` : ''} ({pyqLevel}) yet. Check back later!
                   </p>
                 </div>
               ) : (
@@ -466,6 +463,9 @@ export default function Resources() {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-black text-[#0b1120] mb-1 group-hover:text-[#10b981] transition-colors">{res.title}</h3>
                         {res.description && <p className="text-sm text-gray-500 font-medium">{res.description}</p>}
+                        {!pyqExam && res.sub_type && (
+                          <span className="inline-block mt-1.5 px-2.5 py-0.5 bg-amber-50 text-amber-600 text-xs font-bold rounded-full border border-amber-200">{res.sub_type}</span>
+                        )}
                       </div>
                       <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10b981] transition-colors shrink-0 mt-1" />
                     </a>
@@ -486,12 +486,10 @@ export default function Resources() {
             </div>
           )}
 
-          {pyqSubject && !pyqExam && (
-            <div className="text-center py-16 px-6">
-              <div className="text-5xl mb-4">📝</div>
-              <h3 className="text-xl font-black text-[#0b1120] mb-2">Select an Exam Type</h3>
-              <p className="text-gray-500 font-medium text-sm max-w-md mx-auto">
-                Choose from Quiz 1, Quiz 2, End Term, or OPPE to see the past papers.
+          {pyqSubject && !pyqLoading && pyqResources.length > 0 && !pyqExam && availableExamTypes.length > 0 && (
+            <div className="text-center pt-2 pb-4">
+              <p className="text-gray-400 font-medium text-sm">
+                Filter by exam type above, or browse all PYQs below.
               </p>
             </div>
           )}
