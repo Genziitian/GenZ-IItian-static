@@ -7,11 +7,9 @@ node_modules/
 dist/
 build/
 
-# Database
-data/*.db
+# Database journals (not the db itself)
 data/*.db-shm
 data/*.db-wal
-admin.db
 
 # Environment variables
 .env
