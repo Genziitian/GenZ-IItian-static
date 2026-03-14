@@ -165,6 +165,7 @@ const init = async () => {
 
   // Remove placeholder BDM Sep 2024 entry
   await db.runAsync("DELETE FROM resources WHERE title = 'BDM Quiz 1 PYQ - Sep 2024' AND url = '#'");
+  await db.runAsync("DELETE FROM resources WHERE subject = 'BDM' AND resource_type = 'note' AND url = '#'");
 
   // Ensure BDM PYQs exist
   const bdmPyqs = [
@@ -179,6 +180,47 @@ const init = async () => {
         [r.level, r.subject, r.resource_type, r.sub_type, r.title, r.description, r.url]
       );
       console.log(`✅ Inserted BDM PYQ: ${r.title}`);
+    }
+  }
+
+  // Ensure BDM notes exist
+  const bdmNotes = [
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 1 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1Uoxiuc6P1_4ptV4XTURSNThhQa0HtWoR/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 2 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/10kuVA678PIIjaSwd_TCazpTLsSRsxUBn/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 3 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1XTJXevZl7BTcSeocFffKocNCutRXpk7m/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 4 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1COGrcwnCbqVCQb-pRR2QUW0WZwcsYk89/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 5 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1uCdxBiraDhJmFnwcWI36XI-Ty8RjK03z/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 7 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1osIoslgT2hZomvINE0x3Xx8P3pfTAVAE/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 8 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/13QOsjdWUoHMb3i9545NKy31E8luu0Xei/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 9 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1b0d1U9pHUJkmrRUKDIsTSXUzsf9dovCi/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 10 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1hdT_RcU4TXkSqJ15IWZvRWtnQ42RacN-/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 11 and 12 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1N9Wuv7q0O6kZRu2BJRE4eOWA8Y-KlDzr/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Short Notes', title: 'BDM Short Notes Week 1 to 4', description: 'Short notes', url: 'https://drive.google.com/file/d/1Pp0ilU0RbjRa1BBEMDmxdy-bseWKLHId/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Short Notes', title: 'BDM Short Notes Week 5 to 8', description: 'Short notes', url: 'https://drive.google.com/file/d/1JDARZi7FdUN_tr0WK-h7LucKxAMh2g7m/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Short Notes', title: 'BDM Short Notes Week 9 to 12', description: 'Short notes', url: 'https://drive.google.com/file/d/1PkcgHp5F6mMkJKK-f7zsp3bOGf-ZqOva/view?usp=drive_link' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Summary Notes', title: 'BDM Summary Notes Week 1', description: 'Summary notes', url: 'https://drive.google.com/file/d/1rWcbHiy3aWFfz5S4k7FMyLhaMNQRqHh_/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Summary Notes', title: 'BDM Summary Notes Week 1 to 4 - Set 1', description: 'Summary notes', url: 'https://drive.google.com/file/u/5/d/1AFH6kXlUih_5LxW1zTBBqyoQDIZ3mWrD/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Formula Sheet', title: 'BDM Formula Sheet', description: 'Formula reference document', url: 'https://docs.google.com/document/u/0/d/1E_iN7EqtsperhA6H7JprM0CD1UHbH4mW' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 1 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/18O-DIVzwzlFE2mFwSKXXHflIAnjfLx3C/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 2 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1qah00cuwxPnN1IVAx25p_JXeuJdhEZjK/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 3 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1VWzUmhBEN0CLm7pmEuS28FRN_egdX4CL/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 4 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1vxOu0etuj1GQZpAF3T-01m8ohmv0arO0/view' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Summary Notes', title: 'BDM Week 5 Summary Notes', description: 'Summary notes', url: 'https://drive.google.com/file/d/1659NGC5-gkgcDQkqVVTwAax_ryzwh52e/view?usp=sharing' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 10 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1U1q4ekh3HUD5RYDuazHqL6iAVrVLMIY6/view?usp=drivesdk' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 9 Notes - Set 2', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1UCYVihnXtcOLVpsEm0lsX9BLKrH3huFp/view?usp=drivesdk' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Notes', title: 'BDM Week 11 Notes', description: 'Weekly notes', url: 'https://drive.google.com/file/d/1kthdnotk02Y55Z25E3Etik8EmtNLlk85/view?usp=sharing' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Summary Notes', title: 'BDM Week 1 to 4 Notes - Set 2', description: 'Summary notes', url: 'https://drive.google.com/file/d/1E96ycMPPtzykS9bvrGFF3yK9zbXx_sDU/view?usp=sharing' },
+    { level: 'Diploma', subject: 'BDM', resource_type: 'note', sub_type: 'Summary Notes', title: 'BDM Week 5 to 11 Notes', description: 'Summary notes', url: 'https://drive.google.com/file/d/120D5MoKCd85Ac0YpneYh-tvW5tJVZfEE/view?usp=sharing' },
+  ];
+
+  for (const r of bdmNotes) {
+    const exists = await db.getAsync('SELECT id FROM resources WHERE url = ?', [r.url]);
+    if (!exists) {
+      await db.runAsync(
+        `INSERT INTO resources (level, subject, resource_type, sub_type, title, description, url, published) VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+        [r.level, r.subject, r.resource_type, r.sub_type, r.title, r.description, r.url]
+      );
+      console.log(`✅ Inserted BDM note: ${r.title}`);
     }
   }
 };
