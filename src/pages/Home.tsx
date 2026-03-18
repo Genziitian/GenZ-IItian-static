@@ -57,13 +57,13 @@ export default function Home() {
           </h2>
 
           <div className="flex flex-col gap-8">
-            {/* Main Qualifier Course Card */}
+            {/* Main Reattempt Course Card */}
             <div className="relative group">
               <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
               <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 lg:p-8 flex flex-col lg:flex-row gap-8 transition-transform hover:-translate-y-1 hover:-translate-x-1">
                 {/* Image */}
                 <div className="w-full lg:w-1/2 aspect-video bg-gray-100 rounded-2xl border-2 border-[#0b1120] overflow-hidden relative">
-                  <img src="/Image/Qualifier.png" alt="Qualifier Course" className="w-full h-full object-contain" />
+                  <img src="/Image/Qualifier.png" alt="Qualifier Reattempt Batch" className="w-full h-full object-contain" />
                 </div>
 
                 {/* Content */}
@@ -71,22 +71,22 @@ export default function Home() {
                   <div className="inline-block px-3 py-1 bg-[#10b981] text-white font-black text-xs rounded-full border-2 border-[#0b1120] w-fit mb-4 uppercase tracking-wide">
                     Most Popular
                   </div>
-                  <h3 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-4 leading-tight">Qualifier Course</h3>
+                  <h3 className="text-3xl lg:text-4xl font-black text-[#0b1120] mb-4 leading-tight">Qualifier Reattempt Batch</h3>
                   <p className="text-gray-600 font-bold mb-8 text-sm lg:text-base">
-                    Complete Week 1-4 Prep. Live Interactive Classes, Doubt Support, Notes & PYQs, and Full Refund if not Qualified.
+                    For qualifier students: live + recording batch with weekly doubt support, PYQ lectures and graded assignment recordings.
                   </p>
 
                   <div className="flex items-end gap-3 mb-6">
                     <div className="flex flex-col">
                       <span className="text-sm font-bold text-gray-500 mb-0.5">Starting at</span>
-                      <span className="text-4xl font-black text-[#0b1120] leading-none">₹649</span>
+                      <span className="text-4xl font-black text-[#0b1120] leading-none">₹699</span>
                     </div>
                     <span className="text-xl font-bold text-gray-400 line-through mb-1">₹999</span>
-                    <span className="px-2 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-xs font-black mb-2">35% off</span>
+                    <span className="px-2 py-1 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-xs font-black mb-2">Live + Rec</span>
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 mt-auto">
-                    <Link to="/courses/qualifier" className="w-full py-3 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
+                    <Link to="/courses/reattempt" className="w-full py-3 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
                       View Details
                     </Link>
                   </div>
@@ -97,25 +97,25 @@ export default function Home() {
             {/* Other Courses Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-              {/* Foundation Term 1 */}
+              {/* Term 1 Quiz 2 */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="/Image/Fundation Term 1.png" alt="Foundation Term 1" className="w-full h-full object-contain" />
+                    <img src="/Image/Fundation Term 1.png" alt="Term 1 Quiz 2" className="w-full h-full object-contain" />
                   </div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Foundation Term 1</h3>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Term 1 Quiz 2</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
-                    Core subject mastery. Maths 1, Stats 1, CT, English 1.
+                    IIT Madras BS Term 1 Quiz 2. Maths 1, Stats 1 and CT.
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
-                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹249</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹799</span>
                     </div>
-                    <span className="text-sm font-bold text-gray-400 line-through mb-1">₹499</span>
-                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
+                    <span className="text-sm font-bold text-gray-400 line-through mb-1">₹849</span>
+                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">Quiz 2</span>
                   </div>
 
                   <div className="flex gap-3 mt-auto">
@@ -126,25 +126,25 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Foundation Term 2 */}
+              {/* Term 2 Quiz 2 */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="/Image/Foundation Term 2.png" alt="Foundation Term 2" className="w-full h-full object-contain" />
+                    <img src="/Image/Foundation Term 2.png" alt="Term 2 Quiz 2" className="w-full h-full object-contain" />
                   </div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Foundation Term 2</h3>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Term 2 Quiz 2</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
-                    Advanced core subjects. Maths 2, Stats 2, Python, English 2.
+                    IIT Madras BS Term 2 Quiz 2. Maths 2, Stats 2 and Python.
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
-                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹249</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹799</span>
                     </div>
-                    <span className="text-sm font-bold text-gray-400 line-through mb-1">₹499</span>
-                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
+                    <span className="text-sm font-bold text-gray-400 line-through mb-1">₹849</span>
+                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">Quiz 2</span>
                   </div>
 
                   <div className="flex gap-3 mt-auto">
@@ -155,30 +155,30 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Diploma Course */}
+              {/* Diploma Quiz 2 */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-[#10b981] rounded-3xl translate-y-2 translate-x-2 border-2 border-[#0b1120]"></div>
                 <div className="relative bg-white border-[3px] border-[#0b1120] rounded-3xl p-6 flex flex-col h-full transition-transform hover:-translate-y-1 hover:-translate-x-1">
                   <div className="w-full aspect-video bg-gray-100 rounded-xl border-2 border-[#0b1120] overflow-hidden mb-6">
-                    <img src="/Image/Diploma.png" alt="Diploma Course" className="w-full h-full object-contain" />
+                    <img src="/Image/Diploma.png" alt="Diploma Quiz 2" className="w-full h-full object-contain" />
                   </div>
-                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Diploma Course</h3>
+                  <h3 className="text-xl font-black text-[#0b1120] mb-2">Diploma Quiz 2</h3>
                   <p className="text-gray-600 font-bold text-xs mb-6 flex-grow">
-                    Advanced specialization. MLF, DBMS, PDSA, JAVA, App Dev.
+                    Launch by 20 March. Join waiting list for Java, PDSA, DBMS and MLF.
                   </p>
 
                   <div className="flex items-end gap-2 mb-6">
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-gray-500 mb-0.5">Starting at</span>
-                      <span className="text-2xl font-black text-[#0b1120] leading-none">₹49</span>
+                      <span className="text-2xl font-black text-[#0b1120] leading-none">Waitlist</span>
                     </div>
-                    <span className="text-sm font-bold text-gray-400 line-through mb-1">₹99</span>
-                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">50% off</span>
+                    <span className="text-sm font-bold text-gray-400 mb-1">20 March</span>
+                    <span className="px-2 py-0.5 bg-[#d1fae5] text-[#059669] border-2 border-[#0b1120] rounded-full text-[10px] font-black mb-1.5">Quiz 2</span>
                   </div>
 
                   <div className="flex gap-3 mt-auto">
                     <Link to="/courses/diploma" className="w-full py-2 bg-[#0b1120] text-white rounded-lg font-bold text-sm border-2 border-[#0b1120] hover:bg-gray-800 transition-colors text-center flex items-center justify-center">
-                      View Details
+                      Join Waiting List
                     </Link>
                   </div>
                 </div>
@@ -456,7 +456,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
-                text: "The Qualifier Course was a game changer. The mock tests were exactly like the real exam. Cleared my IIT Madras qualifier comfortably!",
+                text: "The reattempt batch was a game changer. The mock tests were exactly like the real exam pattern and helped me clear comfortably!",
                 initial: "A",
                 name: "Aryan Sharma",
                 role: "Qualifier Student",

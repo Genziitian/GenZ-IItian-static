@@ -24,72 +24,76 @@ export default function CourseDetail() {
 
   // ─── Course Data ───
   const courseData: Record<string, any> = {
-    'qualifier': {
-      title: 'Qualifier Course',
+    'reattempt': {
+      title: 'Qualifier Reattempt Batch',
       image: '/Image/Qualifier.png',
-      tagline: 'Complete Week 1-4 Prep',
-      description: 'Complete Week 1-4 preparation with live classes, PYQs, doubt sessions & expert mentorship. Your path to IIT Madras starts here.',
-      paymentLink: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
-      razorpayButtonId: 'pl_SAz4NLS9RwPWyM',
-      useRazorpayButton: true,
-      heroPrice: '₹649',
+      tagline: 'Qualifier students reattempt batch (Live + Recording)',
+      description: 'Structured reattempt support for qualifier students with live teaching, complete recordings, PYQ practice, doubt lectures and career workshops.',
+      paymentLink: 'https://rzp.io/rzp/NS9wNPP',
+      useRazorpayButton: false,
+      heroPrice: '₹699',
       heroOriginal: '₹999',
-      heroDiscount: '35% OFF',
+      heroDiscount: 'Limited Offer',
       syllabusItems: [
-        { title: "Mathematics 1", desc: "Foundation concepts & problem solving" },
-        { title: "Statistics 1", desc: "Data analysis & probability basics" },
-        { title: "Computational Thinking", desc: "Logic, algorithms & problem solving" },
-        { title: "English 1", desc: "Comprehension & communication" },
+        { title: "Computational Thinking", desc: "Focused reattempt prep with concept clarity and PYQ drills" },
+        { title: "Statistics 1", desc: "High-weightage revision and cutoff-focused problem solving" },
+        { title: "Mathematics 1", desc: "Topic-wise live + recorded revision strategy for reattempt" },
+        { title: "English 1", desc: "Smart scoring strategy for assignment and quiz performance" },
       ],
       plans: [
         {
-          name: 'Basic',
-          price: '₹649',
+          name: 'Plan: Live + Recording',
+          subtitle: 'Qualifier Reattempt',
+          price: '₹699',
+          priceLabel: 'Combo Access',
           color: 'gray',
-          features: ["Recorded Lectures", "Handwritten Notes", "PYQs (Recorded)", "Graded Assignments"],
-          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+          features: [
+            "Week 1-4 detailed recorded + live PYQ and doubt lectures",
+            "Live PYQ session",
+            "Weekly doubt session",
+            "Graded assignment recordings",
+          ],
+          link: 'https://rzp.io/rzp/NS9wNPP',
         },
         {
-          name: 'Advanced',
+          name: 'Plan: Advanced',
+          subtitle: 'Most Popular',
           price: '₹799',
+          priceLabel: 'Advanced Plan',
           color: 'blue',
           popular: true,
-          includesFrom: 'Basic',
-          extras: ["Live Lectures", "Live PYQs Session", "Live Revision Session", "Career Workshops"],
-          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
-        },
-        {
-          name: 'Champion',
-          price: '₹999',
-          color: 'amber',
-          best: true,
-          refund: true,
-          includesFrom: 'Advanced',
-          extras: ["1:1 Mentorship", "Lifetime Reattempt", "Career Guidance"],
-          link: 'https://pages.razorpay.com/pl_S7JauPkzTwNyRf/view',
+          features: [
+            "Subjects: CT, Stats 1, Maths 1, Eng 1",
+            "Week 1-4 detailed recorded + live PYQs and doubt lectures",
+            "Live PYQs session",
+            "Weekly doubt session",
+            "Graded assignment recordings",
+            "Resume and LinkedIn workshops",
+            "Best for learners who prefer live teaching plus full recordings and career support",
+          ],
+          link: 'https://rzp.io/rzp/NS9wNPP',
         },
       ],
       sidebarPlans: [
-        { label: 'Basic - ₹649', value: 'basic' },
-        { label: 'Advanced - ₹799', value: 'advanced' },
-        { label: 'Champion - ₹999', value: 'champion' },
+        { label: 'Live + Recording Combo - ₹699', value: 'live-rec-combo' },
+        { label: 'Advanced Plan - ₹799', value: 'advanced' },
       ],
-      sidebarPrice: '₹649',
+      sidebarPrice: '₹699',
       sidebarOriginal: '₹999',
-      sidebarDiscount: '35% off',
-      mobilePrice: '₹649',
+      sidebarDiscount: 'limited offer',
+      mobilePrice: '₹699',
       mobileOriginal: '₹999',
     },
     'foundation-1': {
       title: 'Foundation Term 1',
       image: '/Image/Fundation Term 1.png',
-      tagline: 'IIT Madras BS – Term 1 Quiz 1 Foundation Course',
+      tagline: 'IIT Madras BS – Term 1 Quiz 2 Foundation Course',
       description: 'Best & Affordable Course to Master Maths 1, Stats 1, and Computational Thinking.',
-      paymentLink: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+      paymentLink: 'https://rzp.io/rzp/fAjfTS7',
       useRazorpayButton: false,
-      heroPrice: '₹249',
-      heroOriginal: '₹499',
-      heroDiscount: '50% OFF',
+      heroPrice: '₹799',
+      heroOriginal: '₹849',
+      heroDiscount: 'Best Combo Price',
       syllabusItems: [
         { title: "Mathematics 1", desc: "Foundation-level maths concepts, calculus & algebra" },
         { title: "Statistics 1", desc: "Data analysis, probability & descriptive stats" },
@@ -104,14 +108,14 @@ export default function CourseDetail() {
           color: 'blue',
           popular: true,
           features: [
-            "Week 1-4 Detailed Recording + Live Lectures",
+            "Week 1-4 Detailed Recording + 5-8 Live Lectures",
             "Live PYQs Session",
             "Live Revision Session",
             "Weekly Doubt Session",
             "Graded Assignment Recordings",
             "Resume & LinkedIn Workshops",
           ],
-          link: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+          link: 'https://rzp.io/rzp/fAjfTS7',
         },
         {
           name: 'Plan B: Basic (Recordings)',
@@ -119,14 +123,14 @@ export default function CourseDetail() {
           priceLabel: 'Combo All 3 Subjects',
           color: 'gray',
           features: [
-            "Week 1-4 Detailed Recording Lectures",
+            "Week 1-8 Detailed Recording Lectures",
             "Recorded PYQs Session",
             "Weekly Doubt Session",
             "Graded Assignment Recordings",
             "Best Handwritten Notes",
             "Subject-wise Most Imp Questions & Blueprint",
           ],
-          link: 'https://pages.razorpay.com/pl_S6yTTg8hKz8ZGf/view',
+          link: 'https://rzp.io/rzp/fAjfTS7',
         },
       ],
       individualPricing: [
@@ -142,22 +146,22 @@ export default function CourseDetail() {
         { label: '3 Sub Recording Combo - ₹799', value: 'rec-combo' },
         { label: 'Individual Subject - from ₹249', value: 'individual' },
       ],
-      sidebarPrice: '₹249',
-      sidebarOriginal: '₹499',
-      sidebarDiscount: '50% off',
-      mobilePrice: '₹249',
-      mobileOriginal: '₹499',
+      sidebarPrice: '₹799',
+      sidebarOriginal: '₹849',
+      sidebarDiscount: 'combo price',
+      mobilePrice: '₹799',
+      mobileOriginal: '₹849',
     },
     'foundation-2': {
       title: 'Foundation Term 2',
       image: '/Image/Foundation Term 2.png',
-      tagline: 'IIT Madras BS – Term 2 Quiz 1 Foundation Course',
+      tagline: 'IIT Madras BS – Term 2 Quiz 2 Foundation Course',
       description: 'Best & Affordable Course to Master Maths 2, Stats 2, and Python.',
-      paymentLink: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+      paymentLink: 'https://rzp.io/rzp/LOyb6RP',
       useRazorpayButton: false,
-      heroPrice: '₹249',
-      heroOriginal: '₹499',
-      heroDiscount: '50% OFF',
+      heroPrice: '₹799',
+      heroOriginal: '₹849',
+      heroDiscount: 'Best Combo Price',
       syllabusItems: [
         { title: "Mathematics 2", desc: "Advanced maths concepts, linear algebra & calculus" },
         { title: "Statistics 2", desc: "Inferential statistics, hypothesis testing & regression" },
@@ -172,29 +176,29 @@ export default function CourseDetail() {
           color: 'blue',
           popular: true,
           features: [
-            "Week 1-4 Detailed Recording + Live Lectures",
+            "Week 1-4 Detailed Recording + 5-8 Live Lectures",
             "Live PYQs Session",
             "Live Revision Session",
             "Weekly Doubt Session",
             "Graded Assignment Recordings",
             "Resume & LinkedIn Workshops",
           ],
-          link: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+          link: 'https://rzp.io/rzp/LOyb6RP',
         },
         {
           name: 'Plan B: Basic (Recordings)',
-          price: '₹749',
+          price: '₹799',
           priceLabel: 'Combo All 3 Subjects',
           color: 'gray',
           features: [
-            "Week 1-4 Detailed Recording Lectures",
+            "Week 1-8 Detailed Recording Lectures",
             "Recorded PYQs Session",
             "Weekly Doubt Session",
             "Graded Assignment Recordings",
             "Best Handwritten Notes",
             "Subject-wise Most Imp Questions & Blueprint",
           ],
-          link: 'https://pages.razorpay.com/pl_S7J6R8xcpjwvBO/view',
+          link: 'https://rzp.io/rzp/LOyb6RP',
         },
       ],
       individualPricing: [
@@ -207,25 +211,26 @@ export default function CourseDetail() {
       ],
       sidebarPlans: [
         { label: '3 Sub Live Combo - ₹849', value: 'live-combo' },
-        { label: '3 Sub Recording Combo - ₹749', value: 'rec-combo' },
+        { label: '3 Sub Recording Combo - ₹799', value: 'rec-combo' },
         { label: 'Individual Subject - from ₹249', value: 'individual' },
       ],
-      sidebarPrice: '₹249',
-      sidebarOriginal: '₹499',
-      sidebarDiscount: '50% off',
-      mobilePrice: '₹249',
-      mobileOriginal: '₹499',
+      sidebarPrice: '₹799',
+      sidebarOriginal: '₹849',
+      sidebarDiscount: 'combo price',
+      mobilePrice: '₹799',
+      mobileOriginal: '₹849',
     },
     'diploma': {
-      title: 'Diploma Course',
+      title: 'Diploma Quiz 2',
       image: '/Image/Diploma.png',
-      tagline: 'Diploma Batch Quiz 1\'26 – Java, PDSA, DBMS, MLF',
-      description: 'Advanced specialization with ₹49 per subject. Master Java, PDSA, DBMS & MLF with live doubt sessions and expert mentorship.',
-      paymentLink: 'https://pages.razorpay.com/pl_S7JFgVsj0mereC/view',
+      tagline: 'Diploma Quiz 2 Batch - Launch by 20 March',
+      description: 'Join the waiting list for Diploma Quiz 2. Covers Java, PDSA, DBMS and MLF.',
+      paymentLink: '/contact',
+      ctaLabel: 'Join Waiting List',
       useRazorpayButton: false,
-      heroPrice: '₹49',
-      heroOriginal: '₹199',
-      heroDiscount: '75% OFF',
+      heroPrice: 'Waitlist Open',
+      heroOriginal: 'Launch on 20 March',
+      heroDiscount: 'New Cohort',
       syllabusItems: [
         { title: "Java", desc: "Object-oriented programming, data structures & design patterns" },
         { title: "PDSA", desc: "Programming, Data Structures and Algorithms" },
@@ -234,42 +239,33 @@ export default function CourseDetail() {
       ],
       plans: [
         {
-          name: 'Diploma All-Access',
-          subtitle: '₹49 per subject',
-          price: '₹49/sub',
-          priceLabel: 'Per Subject',
+          name: 'Diploma Quiz 2 Waiting List',
+          subtitle: 'Launch by 20 March',
+          price: 'Join Now',
+          priceLabel: 'Priority Access',
           color: 'blue',
           popular: true,
           features: [
-            "Week 1-4 Detailed Recording + Live Doubt Session",
-            "Live PYQs Session",
-            "Live Revision Session",
-            "Weekly Doubt Session",
-            "Graded Assignment Recordings",
-            "Resume & LinkedIn Workshops",
-            "Subject-wise Most Imp Questions & Blueprint",
+            "Early access to Diploma Quiz 2 launch updates",
+            "Java, PDSA, DBMS and MLF planned curriculum",
+            "Priority onboarding and announcement alerts",
+            "Seat confirmation before public launch",
           ],
-          link: 'https://pages.razorpay.com/pl_S7JFgVsj0mereC/view',
+          link: '/contact',
         },
       ],
-      individualPricing: [
-        { subject: 'Java', price: '₹49' },
-        { subject: 'PDSA', price: '₹49' },
-        { subject: 'DBMS', price: '₹49' },
-        { subject: 'MLF', price: '₹49' },
-      ],
       sidebarPlans: [
-        { label: 'Per Subject - ₹49', value: 'per-sub' },
+        { label: 'Join Waiting List', value: 'waitlist' },
       ],
-      sidebarPrice: '₹49',
-      sidebarOriginal: '₹199',
-      sidebarDiscount: '75% off',
-      mobilePrice: '₹49',
-      mobileOriginal: '₹199',
+      sidebarPrice: 'Waitlist',
+      sidebarOriginal: 'Launch 20 March',
+      sidebarDiscount: 'Quiz 2',
+      mobilePrice: 'Waitlist',
+      mobileOriginal: 'Launch 20 March',
     },
   };
 
-  const course = courseData[id || ''] || courseData['qualifier'];
+  const course = courseData[id || ''] || courseData['reattempt'];
   const courseTitle = course.title;
   const courseImage = course.image;
 
@@ -388,7 +384,7 @@ export default function CourseDetail() {
                     ) : (
                       <a href={course.paymentLink} target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-bold text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors flex flex-col items-center justify-center gap-1 shadow-lg">
                         <div className="flex items-center gap-2">
-                          Proceed to Payment <ChevronRight className="w-5 h-5" />
+                          {course.ctaLabel || 'Proceed to Payment'} <ChevronRight className="w-5 h-5" />
                         </div>
                         <div className="text-[10px] sm:text-xs text-[#10b981] font-black uppercase tracking-wider">Get Secured Seat to BS</div>
                       </a>
@@ -635,7 +631,7 @@ export default function CourseDetail() {
                       ))}
                     </ul>
                     <a href={plan.link} target="_blank" rel="noopener noreferrer" className={`w-full py-3.5 ${plan.best ? 'bg-[#f59e0b] hover:bg-[#d97706]' : plan.popular ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-100 hover:bg-gray-200'} ${plan.best || plan.popular ? 'text-white' : 'text-[#0b1120]'} rounded-xl font-bold text-lg transition-all text-center`}>
-                      Proceed to Payment
+                      {course.ctaLabel || 'Proceed to Payment'}
                     </a>
                   </div>
                 ))}
@@ -830,7 +826,7 @@ export default function CourseDetail() {
                     </div>
                   ) : (
                     <button onClick={() => window.open(course.paymentLink, '_blank')} className="w-full py-4 bg-[#0b1120] text-white rounded-xl font-black text-lg border-2 border-[#0b1120] hover:bg-gray-800 transition-colors">
-                      Proceed to Payment
+                      {course.ctaLabel || 'Proceed to Payment'}
                     </button>
                   )}
                 </div>
@@ -845,36 +841,36 @@ export default function CourseDetail() {
                   <a href="/courses/foundation-1" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
                     <div className="flex items-center gap-3">
                       <div className="text-2xl"><Building2 className="w-6 h-6 text-[#0b1120]" /></div>
-                      <div className="font-bold text-[#0b1120]">Foundation T1</div>
+                      <div className="font-bold text-[#0b1120]">Term 1 Quiz 2</div>
                     </div>
-                    <div className="text-sm font-bold text-gray-500">from ₹249</div>
+                    <div className="text-sm font-bold text-gray-500">from ₹799</div>
                   </a>
                 )}
                 {id !== 'foundation-2' && (
                   <a href="/courses/foundation-2" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
                     <div className="flex items-center gap-3">
                       <div className="text-2xl"><Rocket className="w-6 h-6 text-[#0b1120]" /></div>
-                      <div className="font-bold text-[#0b1120]">Foundation T2</div>
+                      <div className="font-bold text-[#0b1120]">Term 2 Quiz 2</div>
                     </div>
-                    <div className="text-sm font-bold text-gray-500">from ₹249</div>
+                    <div className="text-sm font-bold text-gray-500">from ₹799</div>
                   </a>
                 )}
                 {id !== 'diploma' && (
                   <a href="/courses/diploma" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
                     <div className="flex items-center gap-3">
                       <div className="text-2xl"><Target className="w-6 h-6 text-[#0b1120]" /></div>
-                      <div className="font-bold text-[#0b1120]">Diploma</div>
+                      <div className="font-bold text-[#0b1120]">Diploma Quiz 2</div>
                     </div>
-                    <div className="text-sm font-bold text-gray-500">from ₹49</div>
+                    <div className="text-sm font-bold text-gray-500">waitlist open</div>
                   </a>
                 )}
-                {id !== 'qualifier' && (
-                  <a href="/courses/qualifier" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
+                {id !== 'reattempt' && (
+                  <a href="/courses/reattempt" className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 transition-all">
                     <div className="flex items-center gap-3">
                       <div className="text-2xl"><GraduationCap className="w-6 h-6 text-[#0b1120]" /></div>
-                      <div className="font-bold text-[#0b1120]">Qualifier</div>
+                      <div className="font-bold text-[#0b1120]">Qualifier Reattempt</div>
                     </div>
-                    <div className="text-sm font-bold text-gray-500">from ₹649</div>
+                    <div className="text-sm font-bold text-gray-500">from ₹699</div>
                   </a>
                 )}
               </div>
@@ -894,7 +890,7 @@ export default function CourseDetail() {
           </div>
         </div>
         <a href={course.paymentLink} target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-[#10b981] text-[#0b1120] rounded-xl font-black border-2 border-[#0b1120] flex items-center gap-2 hover:bg-[#059669] hover:text-white transition-colors text-sm sm:text-base">
-          <span className="hidden sm:inline"><Target className="w-4 h-4" /></span> Enroll Now
+          <span className="hidden sm:inline"><Target className="w-4 h-4" /></span> {course.ctaLabel || 'Enroll Now'}
         </a>
       </div>
 
