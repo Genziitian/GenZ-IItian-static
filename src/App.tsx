@@ -16,6 +16,7 @@ import SEODirectory from './pages/SEODirectory';
 import SEOPage from './pages/SEOPage';
 import Docs from './pages/Docs';
 import DocsDetail from './pages/DocsDetail';
+import GradedAssignment from './pages/GradedAssignment';
 
 export default function App() {
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function App() {
             <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/resources/:level/:subject" element={<ResourceDetail />} />
+            <Route path="/graded-assignment" element={<GradedAssignment />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/docs" element={<Docs />} />

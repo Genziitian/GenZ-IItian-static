@@ -269,6 +269,24 @@ export default function Resources() {
             <Share className="w-4 h-4" /> {copied ? "Copied!" : "Share"}
           </button>
         </div>
+
+        <div className="mt-8 bg-[#fff7ed] border-[3px] border-[#0b1120] rounded-2xl p-6 shadow-[6px_6px_0px_#f59e0b]">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-600 mb-2">New Section</p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-black text-[#0b1120]">Graded Assignment</h2>
+              <p className="text-gray-600 font-medium mt-1">
+                Open the dedicated page, choose your level and subject, then browse Week 1 to Week 12.
+              </p>
+            </div>
+            <Link
+              to="/graded-assignment"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#0b1120] text-white border-[3px] border-[#0b1120] rounded-xl font-black text-sm hover:-translate-y-1 hover:-translate-x-1 shadow-[4px_4px_0px_#10b981] transition-all"
+            >
+              Open Graded Assignment <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}
