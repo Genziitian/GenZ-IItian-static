@@ -26,5 +26,20 @@ export default defineConfig(({ mode }) => {
         },
       }
     },
+    build: {
+      chunkSizeWarningLimit: 600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react')) return 'vendor-react';
+              if (id.includes('lucide-react')) return 'vendor-lucide';
+              if (id.includes('motion')) return 'vendor-motion';
+              return 'vendor';
+            }
+          },
+        },
+      },
+    },
   };
 });
