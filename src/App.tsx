@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,6 +19,16 @@ import SEOPage from './pages/SEOPage';
 import Docs from './pages/Docs';
 import DocsDetail from './pages/DocsDetail';
 import GradedAssignment from './pages/GradedAssignment';
+import Cart from './pages/Cart';
+import Profile from './pages/Profile';
+import CourseSelection from './pages/CourseSelection';
+import Manager from './pages/Manager';
+import TermsAndConditions from './pages/TermsAndConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentFailed from './pages/PaymentFailed';
+import LoginModal from './components/LoginModal';
 
 export default function App() {
   useEffect(() => {
@@ -39,31 +51,45 @@ export default function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-white text-[#0b1120] font-sans selection:bg-blue-100 flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/resources/:level/:subject" element={<ResourceDetail />} />
-            <Route path="/graded-assignment" element={<GradedAssignment />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogDetail />} />
-            <Route path="/docs" element={<Docs />} />
-            <Route path="/docs/:slug" element={<DocsDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/newsletter" element={<Newsletter />} />
-            <Route path="/knowledge" element={<SEODirectory />} />
-            {/* pSEO catch-all — must be last */}
-            <Route path="/*" element={<SEOPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <CartProvider>
+        <LoginModal />
+        <Router>
+          <div className="min-h-screen bg-white text-[#0b1120] font-sans selection:bg-blue-100 flex flex-col">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:id" element={<CourseDetail />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/:level/:subject" element={<ResourceDetail />} />
+                <Route path="/graded-assignment" element={<GradedAssignment />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/docs" element={<Docs />} />
+                <Route path="/docs/:slug" element={<DocsDetail />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/newsletter" element={<Newsletter />} />
+                <Route path="/knowledge" element={<SEODirectory />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout/:id" element={<CourseSelection />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/manager/*" element={<Manager />} />
+                <Route path="/terms" element={<TermsAndConditions />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/refund" element={<RefundPolicy />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-failed" element={<PaymentFailed />} />
+                {/* pSEO catch-all — must be last */}
+                <Route path="/*" element={<SEOPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 }
